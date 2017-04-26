@@ -1181,6 +1181,9 @@ int HandleKeyMessage(WPARAM wParam, LPARAM lParam)
 		if(wParam == CustomKeys.SpeedDown.key
 		&& modifiers == CustomKeys.SpeedDown.modifiers)
 		{
+			if (RA_HardcoreModeIsActive())
+				return 1;
+
 			// Increase emulated frame time
 			int i;
 			for(i=1; FrameTimings[i]<Settings.FrameTime; ++i)
@@ -1196,6 +1199,9 @@ int HandleKeyMessage(WPARAM wParam, LPARAM lParam)
 		if(wParam == CustomKeys.SpeedUp.key
 		&& modifiers == CustomKeys.SpeedUp.modifiers)
 		{
+			if (RA_HardcoreModeIsActive())
+				return 1;
+
 			// Decrease emulated frame time
 			int i;
 			for(i=1; FrameTimings[i]<Settings.FrameTime; ++i)
@@ -1283,6 +1289,15 @@ int HandleKeyMessage(WPARAM wParam, LPARAM lParam)
         if(wParam == CustomKeys.Rewind.key
 		&& modifiers == CustomKeys.Rewind.modifiers)
 		{
+			if (RA_HardcoreModeIsActive())
+			{
+				MessageBox(nullptr,
+					_T("Hardcore Mode is active. Rewind key is disabled."),
+					_T("Warning"),
+					MB_OK);
+				return 1;
+			}
+
             if(!GUI.rewinding)
                 S9xMessage (S9X_INFO, 0, GUI.rewindBufferSize?WINPROC_REWINDING_TEXT:WINPROC_REWINDING_DISABLED);
             GUI.rewinding = true;
@@ -1685,6 +1700,15 @@ LRESULT CALLBACK WinProc(
 			break;
 		case ID_FILE_MOVIE_PLAY:
 			{
+			if (RA_HardcoreModeIsActive())
+			{
+				MessageBox(nullptr,
+					+_T("Hardcore Mode is active. Movie Recording/Playback is disabled."),
+					+_T("Warning"),
+					+MB_OK);
+				break;
+			}
+
 				RestoreGUIDisplay ();  //exit DirectX
 				OpenMovieParams op;
 				memset(&op, 0, sizeof(op));
@@ -1715,6 +1739,15 @@ LRESULT CALLBACK WinProc(
 			break;
 		case ID_FILE_MOVIE_RECORD:
 			{
+			if (RA_HardcoreModeIsActive())
+			{
+				MessageBox(nullptr,
+					+_T("Hardcore Mode is active. Movie Recording/Playback is disabled."),
+					+_T("Warning"),
+					+MB_OK);
+				break;
+			}
+
 				RestoreGUIDisplay ();  //exit DirectX
 				OpenMovieParams op;
 				memset(&op, 0, sizeof(op));

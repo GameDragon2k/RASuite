@@ -48,7 +48,7 @@ const char* g_sClientName = nullptr;
 const char* g_sClientDownloadURL = nullptr;
 const char* g_sClientEXEName = nullptr;
 bool g_bRAMTamperedWith = false;
-bool g_bHardcoreModeActive = false;
+bool g_bHardcoreModeActive = true;
 bool g_bLeaderboardsActive = true;
 unsigned int g_nNumHTTPThreads = 15;
 
@@ -402,25 +402,22 @@ API int CCONV _RA_OnLoadNewRom( const BYTE* pROM, unsigned int nROMSize )
 		if( RAUsers::LocalUser().IsLoggedIn() )
 		{
 			//	Delete Core and Unofficial Achievements so they are redownloaded every time:
-			AchievementSet::DeletePatchFile( Core, nGameID );
-			AchievementSet::DeletePatchFile( Unofficial, nGameID );
-			//AchievementSet::FetchFromWebBlocking( nGameID );	//##BLOCKING##
-			CoreAchievements->FetchFromWebBlocking(nGameID);
-			UnofficialAchievements->FetchFromWebBlocking(nGameID);
-
-
 			CoreAchievements->Clear();
 			UnofficialAchievements->Clear();
 			LocalAchievements->Clear();
 
-			AchievementSet::LoadFromFile( nGameID );
+			CoreAchievements->DeletePatchFile( Core, nGameID );
+			//AchievementSet::DeletePatchFile( Unofficial, nGameID );
+			//AchievementSet::FetchFromWebBlocking( nGameID );	//##BLOCKING##
+			CoreAchievements->FetchFromWebBlocking(nGameID);
+			UnofficialAchievements->FetchFromWebBlocking(nGameID);
 
-			//g_nActiveAchievementSet = Core;
-			//CoreAchievements->LoadFromFile(nGameID);
-			//g_nActiveAchievementSet = Unofficial;
-			//UnofficialAchievements->LoadFromFile(nGameID);
-			//g_nActiveAchievementSet = Local;
-			//LocalAchievements->LoadFromFile(nGameID);
+			//AchievementSet::LoadFromFile( nGameID );
+
+			g_nActiveAchievementSet = Core;
+			CoreAchievements->LoadFromFile(nGameID);
+			g_nActiveAchievementSet = Local;
+			LocalAchievements->LoadFromFile(nGameID);
 
 			RAUsers::LocalUser().PostActivity( PlayerStartedPlaying );
 		}
@@ -1068,9 +1065,16 @@ API void CCONV _RA_InvokeDialog( LPARAM nID )
 				AchievementSet::DeletePatchFile( Core, AchievementSet::GetGameID() );
 				AchievementSet::DeletePatchFile( Unofficial, AchievementSet::GetGameID() );
 
+				CoreAchievements->Clear();
+				UnofficialAchievements->Clear();
+				LocalAchievements->Clear();
+
 				//	Fetch remotely then load again from file
 				AchievementSet::FetchFromWebBlocking( AchievementSet::GetGameID() );
-				AchievementSet::LoadFromFile( AchievementSet::GetGameID() );
+				g_nActiveAchievementSet = Core;
+				CoreAchievements->LoadFromFile(AchievementSet::GetGameID());
+				g_nActiveAchievementSet = Local;
+				LocalAchievements->LoadFromFile(AchievementSet::GetGameID());
 			}
 
 			_RA_RebuildMenu();

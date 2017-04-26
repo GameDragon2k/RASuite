@@ -263,10 +263,10 @@ BOOL AttemptUploadAchievementBlocking( const Achievement& Ach, unsigned int nFla
 
 	PostArgs args;
 	args['u'] = RAUsers::LocalUser().Username();
-	args['p'] = RAUsers::LocalUser().Token();
-	args['i'] = std::to_string( Ach.ID() );
+	args['t'] = RAUsers::LocalUser().Token();
+	args['a'] = std::to_string( Ach.ID() );
 	args['g'] = std::to_string( g_pActiveAchievements->GetGameID() );
-	args['t'] = Ach.Title();
+	args['n'] = Ach.Title();
 	args['d'] = Ach.Description();
 	args['m'] = sMem;
 	args['z'] = std::to_string( Ach.Points() );
@@ -535,7 +535,10 @@ INT_PTR Dlg_Achievements::AchievementsProc( HWND hDlg, UINT nMsg, WPARAM wParam,
 						CoreAchievements->FetchFromWebBlocking(nGameID);
 						UnofficialAchievements->FetchFromWebBlocking(nGameID);
 
-						AchievementSet::LoadFromFile( nGameID );
+						g_nActiveAchievementSet = Local;
+						LocalAchievements->LoadFromFile(nGameID);
+						g_nActiveAchievementSet = Core;
+						CoreAchievements->LoadFromFile(nGameID);
 
 						//	Refresh dialog contents:
 						OnLoad_NewRom( nGameID );

@@ -701,6 +701,9 @@ INT_PTR Dlg_Memory::MemoryProc( HWND hDlg, UINT nMsg, WPARAM wParam, LPARAM lPar
 			SetDlgItemText( hDlg, IDC_RA_MEMBITS_TITLE, L"" );
 			SetDlgItemText( hDlg, IDC_RA_MEMBITS, L"" );
 
+			//	Force this through to invalidate mem viewer:
+			Invalidate();
+
 			if( ( g_MemManager.NumMemoryBanks() == 0 ) || ( g_MemManager.TotalBankSize() == 0 ) )
 				return FALSE;
 
@@ -750,8 +753,8 @@ INT_PTR Dlg_Memory::MemoryProc( HWND hDlg, UINT nMsg, WPARAM wParam, LPARAM lPar
 
 			ComboBox_SetCurSel( GetDlgItem( hDlg, IDC_RA_CBO_CMPTYPE ), 0 );
 
-			//	Every 50ms, update timer proc
-			SetTimer( hDlg, 1, 50, (TIMERPROC)s_MemoryProc );
+			//	Every 16ms, update timer proc
+			SetTimer(hDlg, 1, 16, (TIMERPROC)s_MemoryProc);
 
 			EnableWindow( GetDlgItem( hDlg, IDC_RA_DOTEST ), g_MemManager.NumCandidates() > 0 );
 
@@ -1012,17 +1015,19 @@ INT_PTR Dlg_Memory::MemoryProc( HWND hDlg, UINT nMsg, WPARAM wParam, LPARAM lPar
 
 			case IDC_RA_MEM_LIST:
 			{
-				char sSelectedString[ 1024 ];
+				wchar_t sSelectedString[ 1024 ];
 				HWND hListbox = GetDlgItem( hDlg, IDC_RA_MEM_LIST );
 				ListBox_GetText( hListbox, ListBox_GetCurSel( hListbox ), sSelectedString );
 
-				if( strlen( sSelectedString ) > 6 &&
+				if( wcslen( sSelectedString ) > 6 &&
 					sSelectedString[ 0 ] == '0' &&
 					sSelectedString[ 1 ] == 'x' )
 				{
-					sSelectedString[ 8 ] = '\0';
-					ByteAddress nAddr = static_cast<ByteAddress>( std::strtoul( sSelectedString + 2, NULL, 16 ) );	//	NB. Hex
-					ComboBox_SetText( GetDlgItem( hDlg, IDC_RA_WATCHING ), Widen( sSelectedString ).c_str() );
+					char nString[1024];
+					wcstombs(nString, sSelectedString, 1024);
+					nString[ 8 ] = '\0';
+					ByteAddress nAddr = static_cast<ByteAddress>( std::strtoul(nString + 2, NULL, 16 ) );	//	NB. Hex
+					ComboBox_SetText( GetDlgItem( hDlg, IDC_RA_WATCHING ), Widen(nString).c_str() );
 
 					const CodeNotes::CodeNoteObj* pSavedNote = m_CodeNotes.FindCodeNote( nAddr );
 					if( ( pSavedNote != nullptr ) && ( pSavedNote->Note().length() > 0 ) )
