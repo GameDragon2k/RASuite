@@ -1,0 +1,19 @@
+TODO:
+r4300i/core
+* clean up Win32 filth from core. This means clear abstraction. *vital* for bizhawk/rerecording.
+* change all types to sane types from main.h
+* change as much as possible to portable equivalents
+* work on timing (remove counter factor?)
+* try make things more bulletproof for rerecording/bizhawk.
+* remove RSP/audio interface
+* fix broken opcodes/timing/etc/overall accuracy
+gui:
+* add 7zip support (possibly via File_Extractor)
+RSP:
+* integrate into main executable (remove selectable RSPs)
+* fix broken opcodes/add missing
+audio:
+* add audio output method to replace plugins
+rdp:
+* way too much to do.
+

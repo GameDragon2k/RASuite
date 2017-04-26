@@ -1,0 +1,337 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release External|Win32">
+      <Configuration>Release External</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8822E29E-74D7-BB9D-9E5E-749B135CF88E}</ProjectGuid>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release External|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release External|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>output\debug</OutDir>
+    <IntDir>.\Debug\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release External|Win32'">
+    <OutDir>.\Release_External\</OutDir>
+    <IntDir>.\Release_External\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>output\</OutDir>
+    <IntDir>.\Release\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <MinimalRebuild>false</MinimalRebuild>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Debug\</AssemblerListingLocation>
+      <BrowseInformation>true</BrowseInformation>
+      <PrecompiledHeaderOutputFile>.\Debug\Project64.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\Debug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Debug\Project64.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0c09</Culture>
+      <AdditionalIncludeDirectories>c:\development\PJ64 Source C++ 6.0\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Debug\Project64.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <IgnoreSpecificDefaultLibraries>MSVCRT.lib</IgnoreSpecificDefaultLibraries>
+      <OutputFile>$(OutDir)Project64.exe</OutputFile>
+      <AdditionalLibraryDirectories>zlib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>zlib.lib;htmlhelp.lib;winmm.lib;comctl32.lib;odbc32.lib;odbccp32.lib;Winhttp.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <DataExecutionPrevention>false</DataExecutionPrevention>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release External|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <StringPooling>true</StringPooling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <Optimization>MaxSpeed</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <AdditionalIncludeDirectories>C:\Development\PJ64 Source C++ 6.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>EXTERNAL_RELEASE;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Release_External\</AssemblerListingLocation>
+      <BrowseInformation>true</BrowseInformation>
+      <PrecompiledHeaderOutputFile>.\Release_External\Project64.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\Release_External\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release_External\</ProgramDataBaseFileName>
+      <CallingConvention>FastCall</CallingConvention>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Release_External\Project64.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0c09</Culture>
+      <PreprocessorDefinitions>NDEBUG;EXTERNAL_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release_External\Project64.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <SubSystem>Windows</SubSystem>
+      <IgnoreSpecificDefaultLibraries>LIBC;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <OutputFile>.\Release_External\Project64.exe</OutputFile>
+      <AdditionalLibraryDirectories>C:\Development\PJ64 Source C++ 6.0;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>zlib113.lib;htmlhelp.lib;winmm.lib;comctl32.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <StringPooling>true</StringPooling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <AdditionalIncludeDirectories> $(DXSDK_DIR)/include;zlib;;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
+      <BrowseInformation>true</BrowseInformation>
+      <PrecompiledHeaderOutputFile>.\Release\Project64.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\Release\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Release\Project64.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0c09</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release\Project64.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>$(OutDir)Project64.exe</OutputFile>
+      <AdditionalLibraryDirectories>$(DXSDK_DIR)/lib/x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>zlib/zlib.lib;winmm.lib;comctl32.lib;odbc32.lib;odbccp32.lib;Winhttp.lib;ddraw.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <DataExecutionPrevention>false</DataExecutionPrevention>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <LargeAddressAware>true</LargeAddressAware>
+      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
+      <IgnoreSpecificDefaultLibraries>MSVCRT.lib</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\RA_Integration\RA_Interface.cpp" />
+    <ClCompile Include="BreakPoints.cpp" />
+    <ClCompile Include="CPULog.cpp" />
+    <ClCompile Include="FileUtil.cpp" />
+    <ClCompile Include="InterpreterCPU.cpp" />
+    <ClCompile Include="InterpreterOps.cpp" />
+    <ClCompile Include="ioapi.c" />
+    <ClCompile Include="Logging.cpp" />
+    <ClCompile Include="mapping.cpp" />
+    <ClCompile Include="Overlay.cpp" />
+    <ClCompile Include="Plugin_Audio.cpp" />
+    <ClCompile Include="Plugin_Input.cpp" />
+    <ClCompile Include="Plugin_Video.cpp" />
+    <ClCompile Include="r4300iCommands.cpp" />
+    <ClCompile Include="r4300iMemory.cpp" />
+    <ClCompile Include="r4300iRegisters.cpp" />
+    <ClCompile Include="RA_Implementation.cpp" />
+    <ClCompile Include="RecompilerCPU.cpp" />
+    <ClCompile Include="RecompilerFpuOps.cpp" />
+    <ClCompile Include="RecompilerOps.cpp" />
+    <ClCompile Include="Cheat.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="main2.cpp" />
+    <ClCompile Include="MemTest.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Profiling.cpp" />
+    <ClCompile Include="RomBrowser.cpp" />
+    <ClCompile Include="Settings.cpp" />
+    <ClCompile Include="SettingsApi.cpp" />
+    <ClCompile Include="TLBDisplay.cpp" />
+    <ClCompile Include="Win32Timer.cpp" />
+    <ClCompile Include="unzip.c">
+      <CallingConvention Condition="'$(Configuration)|$(Platform)'=='Release External|Win32'">Cdecl</CallingConvention>
+    </ClCompile>
+    <ClCompile Include="Eeprom.cpp" />
+    <ClCompile Include="FlashRam.cpp" />
+    <ClCompile Include="Mempak.cpp" />
+    <ClCompile Include="Sram.cpp" />
+    <ClCompile Include="CPU.cpp" />
+    <ClCompile Include="DMA.cpp" />
+    <ClCompile Include="Exception.cpp" />
+    <ClCompile Include="Memory.cpp" />
+    <ClCompile Include="pif.cpp" />
+    <ClCompile Include="Registers.cpp" />
+    <ClCompile Include="rom.cpp" />
+    <ClCompile Include="TLB.cpp" />
+    <ClCompile Include="Plugin.cpp" />
+    <ClCompile Include="X86.cpp" />
+    <ClCompile Include="Language.cpp" />
+    <ClCompile Include="x86fpu.cpp" />
+    <ClCompile Include="zip.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\RA_Integration\RA_Interface.h" />
+    <ClInclude Include="BreakPoints.h" />
+    <ClInclude Include="CPULog.h" />
+    <ClInclude Include="crypt.h" />
+    <ClInclude Include="Debugger.h" />
+    <ClInclude Include="FileUtil.h" />
+    <ClInclude Include="InterpreterCPU.h" />
+    <ClInclude Include="InterpreterOps.h" />
+    <ClInclude Include="ioapi.h" />
+    <ClInclude Include="Logging.h" />
+    <ClInclude Include="Mapping.h" />
+    <ClInclude Include="Overlay.h" />
+    <ClInclude Include="Plugin_Audio.h" />
+    <ClInclude Include="Plugin_Input.h" />
+    <ClInclude Include="Plugin_Video.h" />
+    <ClInclude Include="r4300iCommands.h" />
+    <ClInclude Include="r4300iMemory.h" />
+    <ClInclude Include="r4300iRegisters.h" />
+    <ClInclude Include="RA_Implementation.h" />
+    <ClInclude Include="RecompilerCPU.h" />
+    <ClInclude Include="RecompilerOps.h" />
+    <ClInclude Include="Cheats.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="Profiling.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="RomBrowser.h" />
+    <ClInclude Include="Settings.h" />
+    <ClInclude Include="SettingsApi.h" />
+    <ClInclude Include="tlbDisplay.h" />
+    <ClInclude Include="Types.h" />
+    <ClInclude Include="Win32Timer.h" />
+    <ClInclude Include="Eeprom.h" />
+    <ClInclude Include="Flashram.h" />
+    <ClInclude Include="mempak.h" />
+    <ClInclude Include="Sram.h" />
+    <ClInclude Include="CPU.h" />
+    <ClInclude Include="DMA.h" />
+    <ClInclude Include="Exception.h" />
+    <ClInclude Include="Memory.h" />
+    <ClInclude Include="OpCode.h" />
+    <ClInclude Include="pif.h" />
+    <ClInclude Include="Registers.h" />
+    <ClInclude Include="Rom.h" />
+    <ClInclude Include="tlb.h" />
+    <ClInclude Include="unzip.h" />
+    <ClInclude Include="zconf.h" />
+    <ClInclude Include="zip.h" />
+    <ClInclude Include="Plugin.h" />
+    <ClInclude Include="X86.h" />
+    <ClInclude Include="Language.h" />
+    <ClInclude Include="MemTest.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="left.ico" />
+    <CustomBuild Include="pj64.BMP" />
+    <CustomBuild Include="pj64.ico" />
+    <CustomBuild Include="right.ico" />
+    <CustomBuild Include="tri-state.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="PJ64.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="nasmhead.inc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

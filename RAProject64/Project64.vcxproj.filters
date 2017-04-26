@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{c1387139-4675-44da-83ed-3360bbbc0568}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="zipstuff">
+      <UniqueIdentifier>{188bf492-5a10-460c-a8f6-2be14d00fb94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins">
+      <UniqueIdentifier>{5baf9e0b-72eb-44fb-b07e-b3d1ef848363}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="x86fpu.cpp" />
+    <ClCompile Include="BreakPoints.cpp" />
+    <ClCompile Include="Cheat.cpp" />
+    <ClCompile Include="CPU.cpp" />
+    <ClCompile Include="CPULog.cpp" />
+    <ClCompile Include="DMA.cpp" />
+    <ClCompile Include="Eeprom.cpp" />
+    <ClCompile Include="Exception.cpp" />
+    <ClCompile Include="FlashRam.cpp" />
+    <ClCompile Include="InterpreterCPU.cpp" />
+    <ClCompile Include="InterpreterOps.cpp" />
+    <ClCompile Include="Language.cpp" />
+    <ClCompile Include="Logging.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="main2.cpp" />
+    <ClCompile Include="mapping.cpp" />
+    <ClCompile Include="Memory.cpp" />
+    <ClCompile Include="Mempak.cpp" />
+    <ClCompile Include="MemTest.cpp" />
+    <ClCompile Include="pif.cpp" />
+    <ClCompile Include="Profiling.cpp" />
+    <ClCompile Include="r4300iCommands.cpp" />
+    <ClCompile Include="r4300iMemory.cpp" />
+    <ClCompile Include="r4300iRegisters.cpp" />
+    <ClCompile Include="RecompilerCPU.cpp" />
+    <ClCompile Include="RecompilerFpuOps.cpp" />
+    <ClCompile Include="RecompilerOps.cpp" />
+    <ClCompile Include="Registers.cpp" />
+    <ClCompile Include="rom.cpp" />
+    <ClCompile Include="RomBrowser.cpp" />
+    <ClCompile Include="Settings.cpp" />
+    <ClCompile Include="Sram.cpp" />
+    <ClCompile Include="TLB.cpp" />
+    <ClCompile Include="X86.cpp" />
+    <ClCompile Include="TLBDisplay.cpp" />
+    <ClCompile Include="SettingsApi.cpp" />
+    <ClCompile Include="Win32Timer.cpp" />
+    <ClCompile Include="unzip.c">
+      <Filter>zipstuff</Filter>
+    </ClCompile>
+    <ClCompile Include="zip.c">
+      <Filter>zipstuff</Filter>
+    </ClCompile>
+    <ClCompile Include="ioapi.c">
+      <Filter>zipstuff</Filter>
+    </ClCompile>
+    <ClCompile Include="FileUtil.cpp" />
+    <ClCompile Include="Plugin.cpp">
+      <Filter>Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="Plugin_Audio.cpp">
+      <Filter>Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="Plugin_Video.cpp">
+      <Filter>Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="Plugin_Input.cpp">
+      <Filter>Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="RA_Implementation.cpp" />
+    <ClCompile Include="Overlay.cpp" />
+    <ClCompile Include="..\RA_Integration\RA_Interface.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="unzip.h">
+      <Filter>zipstuff</Filter>
+    </ClInclude>
+    <ClInclude Include="zconf.h">
+      <Filter>zipstuff</Filter>
+    </ClInclude>
+    <ClInclude Include="zip.h">
+      <Filter>zipstuff</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakPoints.h" />
+    <ClInclude Include="X86.h" />
+    <ClInclude Include="Cheats.h" />
+    <ClInclude Include="CPU.h" />
+    <ClInclude Include="Debugger.h" />
+    <ClInclude Include="DMA.h" />
+    <ClInclude Include="Eeprom.h" />
+    <ClInclude Include="Exception.h" />
+    <ClInclude Include="Flashram.h" />
+    <ClInclude Include="InterpreterCPU.h" />
+    <ClInclude Include="InterpreterOps.h" />
+    <ClInclude Include="Language.h" />
+    <ClInclude Include="Logging.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="Mapping.h" />
+    <ClInclude Include="Memory.h" />
+    <ClInclude Include="mempak.h" />
+    <ClInclude Include="MemTest.h" />
+    <ClInclude Include="OpCode.h" />
+    <ClInclude Include="pif.h" />
+    <ClInclude Include="Profiling.h" />
+    <ClInclude Include="r4300iCommands.h" />
+    <ClInclude Include="r4300iMemory.h" />
+    <ClInclude Include="r4300iRegisters.h" />
+    <ClInclude Include="RecompilerCPU.h" />
+    <ClInclude Include="RecompilerOps.h" />
+    <ClInclude Include="Registers.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Rom.h" />
+    <ClInclude Include="RomBrowser.h" />
+    <ClInclude Include="Settings.h" />
+    <ClInclude Include="Sram.h" />
+    <ClInclude Include="tlb.h" />
+    <ClInclude Include="Types.h" />
+    <ClInclude Include="Win32Timer.h" />
+    <ClInclude Include="tlbDisplay.h" />
+    <ClInclude Include="SettingsApi.h" />
+    <ClInclude Include="CPULog.h" />
+    <ClInclude Include="ioapi.h">
+      <Filter>zipstuff</Filter>
+    </ClInclude>
+    <ClInclude Include="crypt.h">
+      <Filter>zipstuff</Filter>
+    </ClInclude>
+    <ClInclude Include="FileUtil.h" />
+    <ClInclude Include="Plugin.h">
+      <Filter>Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="Plugin_Audio.h">
+      <Filter>Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="Plugin_Video.h">
+      <Filter>Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="Plugin_Input.h">
+      <Filter>Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="RA_Implementation.h" />
+    <ClInclude Include="Overlay.h" />
+    <ClInclude Include="..\RA_Integration\RA_Interface.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="PJ64.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="left.ico">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="pj64.BMP">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="pj64.ico">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="right.ico">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="tri-state.bmp">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="nasmhead.inc" />
+  </ItemGroup>
+</Project>
