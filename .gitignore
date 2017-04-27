@@ -1,6 +1,7 @@
 /*.opensdf
 /*.sdf
 /*.suo
+/*.obj
 /bizhawk/*.suo
 /bizhawk/BizHawk.Client.Common/obj
 /bizhawk/BizHawk.Client.Common/bin
@@ -149,6 +150,12 @@
 /RANes/output/RANes.exe
 /RANes/output/RANes.exp
 /RANes/output/fceux.cfg
+/RAProject64/Debug/*
+/RAProject64/RA_Keys.dll
+/RAProject64/RACache/
+/RAProject64/Project64.VC.VC.opendb
+/RAProject64/RACache/
+/RAProject64/RAPrefs_RAP64.cfg
 /RASnes9x/libpng/projects/visualc71/Win32_LIB_Release/*.lib
 /RASnes9x/libpng/projects/visualc71/Win32_LIB_Release/*.pch
 /RASnes9x/win32/*.opensdf
