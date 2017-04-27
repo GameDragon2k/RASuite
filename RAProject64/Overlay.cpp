@@ -3,7 +3,7 @@
 #include <math.h>
 #include "Main.h"
 #include "Cpu.h"
-
+#include "Plugin_Input.h"
 
 #include "../RA_Integration/RA_Interface.h"
 
@@ -60,17 +60,20 @@ void UpdateOverlay(HDC hdc, RECT rect)
 
 	ControllerInput input; // This has to be passed to the overlay
 
-	input.m_bUpPressed		= GetAsyncKeyState( VK_UP );
-	input.m_bDownPressed	= GetAsyncKeyState( VK_DOWN);
-	input.m_bLeftPressed	= GetAsyncKeyState( VK_LEFT );
-	input.m_bRightPressed	= GetAsyncKeyState( VK_RIGHT );
+	BUTTONS Keys;
+	GetKeys(0, &Keys); // Get keys from 1st player controller.
+
+	input.m_bUpPressed		= Keys.U_DPAD;
+	input.m_bDownPressed	= Keys.D_DPAD;
+	input.m_bLeftPressed	= Keys.L_DPAD;
+	input.m_bRightPressed	= Keys.R_DPAD;
 	//bAltButton = !Controller_1_A;
-	input.m_bCancelPressed	= GetAsyncKeyState( VK_ESCAPE );
-	input.m_bConfirmPressed = GetAsyncKeyState( VK_SPACE );
-	input.m_bQuitPressed	= GetAsyncKeyState( 0x50);
+	input.m_bCancelPressed	= Keys.B_BUTTON;
+	input.m_bConfirmPressed = Keys.A_BUTTON;
+	input.m_bQuitPressed	= Keys.START_BUTTON;
 
 
-	RA_UpdateRenderOverlay(hdc, &input, ((float)nDelta / 1000.0f), &rect, AutoFullScreen, (bool)CPU_Paused);
+	RA_UpdateRenderOverlay(hdc, &input, ((float)nDelta / 1000.0f), &rect, FALSE, (bool)CPU_Paused!=0);
 }
 
 void RenderAchievementsOverlay(HWND hwnd) {

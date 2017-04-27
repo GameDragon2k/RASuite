@@ -36,6 +36,7 @@
 #include "resource.h" 
 
 #include "Overlay.h"
+#include "../RA_Integration/RA_Interface.h"
 
 
 int NextInstruction, JumpToLocation, ManualPaused, CPU_Paused, CountPerOp;
@@ -1048,6 +1049,7 @@ void PauseCpu (void)
 			ManualPaused = FALSE;
 			SendMessage( hStatusWnd, SB_SETTEXT, 0, (LPARAM)GS(MSG_CPU_RESUMED) );
 			ReleaseMutex(hPauseMutex);
+			RA_SetPaused(CPU_Paused != 0);
 			return;
 		}
 
@@ -1064,6 +1066,7 @@ void PauseCpu (void)
 		CPU_Action.Pause = TRUE;
 		CPU_Action.DoSomething = TRUE;
 	}
+	RA_SetPaused(CPU_Paused != 0);
 	ReleaseMutex(hPauseMutex);
 }
 
