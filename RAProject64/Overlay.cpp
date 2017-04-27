@@ -43,7 +43,7 @@ void CreateOverlay(HWND hwnd){
 			"RAWnd",
 			(WS_POPUP),
 			CW_USEDEFAULT, CW_USEDEFAULT, rect.right, rect.bottom,
-			hwnd, NULL, wndEx.hInstance, NULL);
+			NULL, NULL, wndEx.hInstance, NULL);
 
 		//SetParent(hwnd, layeredWnd);
 		
@@ -72,6 +72,8 @@ void UpdateOverlay(HDC hdc, RECT rect)
 	input.m_bConfirmPressed = Keys.A_BUTTON;
 	input.m_bQuitPressed	= Keys.START_BUTTON;
 
+	if (RA_OverlayStatus && (Keys.B_BUTTON || Keys.START_BUTTON))
+		RA_OverlayStatus = FALSE;
 
 	RA_UpdateRenderOverlay(hdc, &input, ((float)nDelta / 1000.0f), &rect, FALSE, (bool)CPU_Paused!=0);
 }

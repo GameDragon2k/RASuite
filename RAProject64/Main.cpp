@@ -58,6 +58,8 @@ char CurrentSave[256], main_directory[_MAX_PATH];
 HMENU hMainMenu;
 HINSTANCE hInst;
 
+BOOL RA_OverlayStatus;
+
 void MenuSetText ( HMENU hMenu, int MenuPos, char * Title, char * ShotCut );
 void RomInfo     ( void );
 void SetupMenu   ( HWND hWnd );
@@ -1975,6 +1977,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszArgs,
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 
+		if (GetAsyncKeyState(VK_DELETE))
+		{
+			RA_OverlayStatus = !RA_OverlayStatus;
+			RA_SetPaused(RA_OverlayStatus);
+		}
 					
 		//RenderOverlay(hMainWindow);
 		//RA_OnPaint(hMainWindow);

@@ -389,6 +389,7 @@ void ProcessControllerCommand ( int Control, BYTE * Command)
 
 void ReadControllerCommand (int Control, BYTE * Command)
 {
+	if (RA_OverlayStatus) return;
 	switch (Command[2])
 	{
 		case 0x01: // read controller

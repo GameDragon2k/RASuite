@@ -154,6 +154,8 @@ extern char CurrentSave[256], main_directory[_MAX_PATH];
 extern HMENU hMainMenu;
 extern HINSTANCE hInst;
 
+extern BOOL RA_OverlayStatus;
+
 /******** Function Prototype *********/
 DWORD AsciiToHex          ( char * HexValue );
 void AlwaysOnTopWindow    ( HWND hWnd );
