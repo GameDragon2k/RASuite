@@ -1952,8 +1952,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszArgs,
 		}
 	}
 
-	//CreateOverlay(hRomList, hInstance);
-
 	RA_Init(hMainWindow, RA_Project64, "0.042" );
 	RA_InitShared();
 	
@@ -1980,6 +1978,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszArgs,
 					
 		//RenderOverlay(hMainWindow);
 		//RA_OnPaint(hMainWindow);
+
+		//RenderAchievementsOverlay(hMainWindow);
 		
 		RA_HandleHTTPResults();
 		RA_DoAchievementsFrame();

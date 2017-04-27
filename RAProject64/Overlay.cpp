@@ -8,7 +8,6 @@
 #include "../RA_Integration/RA_Interface.h"
 
 HWND layeredWnd;
-HWND MainWND;
 RECT rect;
 
 LRESULT CALLBACK OverlayWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
@@ -25,7 +24,7 @@ LRESULT CALLBACK OverlayWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPara
 	}
 }
 
-void CreateOverlay(HWND hwnd, HINSTANCE hInstance){
+void CreateOverlay(HWND hwnd){
 
 
 		//Set up window class
@@ -34,35 +33,25 @@ void CreateOverlay(HWND hwnd, HINSTANCE hInstance){
 		wndEx.cbWndExtra  = sizeof(wndEx);
 		wndEx.lpszClassName = "RA_WND_CLASS";
 		wndEx.lpfnWndProc = OverlayWndProc;
-		wndEx.hInstance = hInstance;
+		wndEx.hInstance = (HINSTANCE)GetWindowLong(hwnd, GWL_HINSTANCE);
 		int result = RegisterClass(&wndEx);
 
 		// Create Window. WS_POPUP style is important so window displays without any borders or toolbar;
-		hwnd =  CreateWindow("OverlayWnd",        
-                        TEXT("RA Overlay"), 
-                        WS_CHILD | WS_VISIBLE | WS_CAPTION 
-                        | WS_SYSMENU | WS_THICKFRAME 
-                        | WS_MINIMIZEBOX | WS_MAXIMIZEBOX,  
-                        CW_USEDEFAULT,      
-                        CW_USEDEFAULT,      
-                        300,        
-                        300,        
-                        layeredWnd,               
-                        NULL,               
-                        hInstance,          
-                        NULL);  
+		layeredWnd = CreateWindowEx(
+			(WS_EX_NOACTIVATE | WS_EX_TRANSPARENT | WS_EX_LAYERED),
+			wndEx.lpszClassName,
+			"RAWnd",
+			(WS_POPUP),
+			CW_USEDEFAULT, CW_USEDEFAULT, rect.right, rect.bottom,
+			hwnd, NULL, wndEx.hInstance, NULL);
 
-		SetParent(hwnd, layeredWnd);
+		//SetParent(hwnd, layeredWnd);
 		
-		ShowWindow(layeredWnd, SW_SHOWNORMAL);
-		UpdateWindow(layeredWnd);
-
+		ShowWindow(layeredWnd, SW_SHOWNOACTIVATE);
 }
 
 void UpdateOverlay(HDC hdc, RECT rect)
 {
-
-
 	static int nOldTime = GetTickCount(); //Time in ms I presume
 
 	int nDelta;
@@ -88,16 +77,19 @@ void RenderAchievementsOverlay(HWND hwnd) {
 	//#RA:
 	//WARNING: Ugly Hack
 
-	MainWND = hwnd;
-
-	
-	GetClientRect(hwnd, &rect);
 
 	char currDir[2048];
 	GetCurrentDirectory(2048, currDir); // "where'd you get the multithreaded code, Ted?"
 
 	// Set up buffer and back buffer
+	if (layeredWnd == NULL)
+	{
+		CreateOverlay(hwnd);
+	}
+	else
+	{
 		HDC hdc = GetDC(hwnd);
+		GetClientRect(hwnd, &rect);
 
 		static HDC hdcMem = NULL;
 		static HBITMAP hBmp = NULL;
@@ -109,7 +101,7 @@ void RenderAchievementsOverlay(HWND hwnd) {
 		}
 
 		// Blits the MainWND to the back buffer.
-		//BitBlt(hdcMem, 0, 0, rect.right, rect.bottom, hdc, 0, 0, SRCCOPY);
+		BitBlt(hdcMem, 0, 0, rect.right, rect.bottom, hdc, 0, 0, SRCCOPY);
 
 		// Update RA stuff
 		UpdateOverlay(hdcMem, rect);
@@ -122,21 +114,18 @@ void RenderAchievementsOverlay(HWND hwnd) {
 		blend.AlphaFormat = AC_SRC_OVER;
 		POINT ptSrc = { 0, 0 };
 		SIZE sizeWnd = { rect.right, rect.bottom };
-		//UpdateLayeredWindow(layeredWnd, hdc, NULL, &sizeWnd, hdcMem, &ptSrc, 0, &blend, ULW_ALPHA);
-		UpdateWindow(hwnd);
+		UpdateLayeredWindow(layeredWnd, hdc, NULL, &sizeWnd, hdcMem, &ptSrc, 0, &blend, ULW_ALPHA);
 
 		// Get position of the client rect. (NOT the window rect)
-		//ClientToScreen(MainWND, reinterpret_cast<POINT*>(&rect.left));
-		//ClientToScreen(MainWND, reinterpret_cast<POINT*>(&rect.right));
+		ClientToScreen(hwnd, reinterpret_cast<POINT*>(&rect.left));
+		ClientToScreen(hwnd, reinterpret_cast<POINT*>(&rect.right));
 
 		// Move layered window over MainWnd.
-		SetWindowPos(hwnd, 0, rect.left, rect.top, 0, 0, SWP_NOSIZE | SWP_NOACTIVATE);
-		//SetWindowPos(MainWND, 0, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE); // Don't think this line is necessary on most OS, but just safety net.
+		SetWindowPos(layeredWnd, 0, rect.left, rect.top, 0, 0, SWP_NOSIZE | SWP_NOACTIVATE);
+		SetWindowPos(hwnd, layeredWnd, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE); // Don't think this line is necessary on most OS, but just safety net.
 
-		//SelectObject(hdcMem, hBmpOld);
-		//DeleteObject(hBmp);
-		//DeleteDC(hdcMem);
 		ReleaseDC(hwnd, hdc);
+	}
 	
 
 	SetCurrentDirectory(currDir); // "Cowboys Ted! They're a bunch of cowboys!"

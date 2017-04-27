@@ -35,6 +35,8 @@
 #include "plugin.h"
 #include "resource.h" 
 
+#include "Overlay.h"
+
 
 int NextInstruction, JumpToLocation, ManualPaused, CPU_Paused, CountPerOp;
 char SaveAsFileName[255], LoadFileName[255];
@@ -1136,6 +1138,9 @@ void RefreshScreen (void )
 		DisplayError("Unknown memory action in trying to update the screen\n\nEmulation stop");
 		ExitThread(0);
 	}
+
+	RenderAchievementsOverlay(hMainWindow);
+
 	if (Profiling) 
 		StartTimer("RefreshScreen: Cheats");
 	if ((STATUS_REGISTER & STATUS_IE) != 0 ) 

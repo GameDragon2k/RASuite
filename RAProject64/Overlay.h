@@ -10,7 +10,7 @@
 extern bool disable_RA_overlay;
 
 LRESULT CALLBACK OverlayWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
-void CreateOverlay(HWND hwnd, HINSTANCE hInstance);
+void CreateOverlay(HWND hwnd);
 void RenderAchievementsOverlay(HWND hwnd);
 
 
