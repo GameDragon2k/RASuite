@@ -1,0 +1,32 @@
+_RA_InitI Init called! ID: 1, ClientVer: 0.042
+(found as: RAP64)
+_RA_InitI - storing "M:\Covers\AlanBuild - Copy\RASuite\RAProject64\Source\Project64\" as home dir
+_RA_LoadPreferences - loading preferences...
+RA_InitializeHTTPThreads called
+RA_InitializeHTTPThreads Adding HTTP thread 0
+RA_InitializeHTTPThreads Adding HTTP thread 1
+RA_InitializeHTTPThreads Adding HTTP thread 2
+RA_InitializeHTTPThreads Adding HTTP thread 3
+RA_InitializeHTTPThreads Adding HTTP thread 4
+RA_InitializeHTTPThreads Adding HTTP thread 5
+RA_InitializeHTTPThreads Adding HTTP thread 6
+RA_InitializeHTTPThreads Adding HTTP thread 7
+RA_InitializeHTTPThreads Adding HTTP thread 8
+RA_InitializeHTTPThreads Adding HTTP thread 9
+RA_InitializeHTTPThreads Adding HTTP thread 10
+RA_InitializeHTTPThreads Adding HTTP thread 11
+RA_InitializeHTTPThreads Adding HTTP thread 12
+RA_InitializeHTTPThreads Adding HTTP thread 13
+RA_InitializeHTTPThreads Adding HTTP thread 14
+CreateHTTPRequestThread Badge/overlayBG.png
+CreateHTTPRequestThread added, queue is at 1
+CreateHTTPRequestThread requestnews.php
+CreateHTTPRequestThread added, queue is at 2
+CreateHTTPRequestThread LatestRAP64Version.html
+CreateHTTPRequestThread added, queue is at 3
+DoBlockingHttpGet: (00002b94) GET from LatestRAP64Version.html...
+DoBlockingHttpGet: (00001784) GET from Badge/overlayBG.png...
+DoBlockingHttpPost: (000039dc) POST to requestnews.php?n=6&a=1...
+DoBlockingHttpGet: (00002b94) success! Read 221 bytes...
+DoBlockingHttpPost: POST to requestnews.php Success: 2097 bytes read
+DoBlockingHttpGet: (00001784) success! Read 243 bytes...
