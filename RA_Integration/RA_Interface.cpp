@@ -1,5 +1,6 @@
 #include "RA_Interface.h"
 
+#include <stdlib.h>
 #include <Windows.h>
 #include <WinHttp.h>
 #include <stdio.h>
