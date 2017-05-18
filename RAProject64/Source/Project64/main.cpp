@@ -12,10 +12,11 @@
 #define RA_TIMER 1;
 
 HWND hMainWindow;
+bool quit_overlay_thread = false;
 
 void RAthread(HWND status)
 {
-	while (true)
+	while (!quit_overlay_thread)
 	{
 		while (g_Settings->LoadBool(GameRunning_LoadingInProgress))
 		{
@@ -128,6 +129,7 @@ int WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /
             g_BaseSystem = NULL;
         }
 
+		quit_overlay_thread = true;
         WriteTrace(TraceUserInterface, TraceDebug, "System Closed");
     }
     catch (...)
