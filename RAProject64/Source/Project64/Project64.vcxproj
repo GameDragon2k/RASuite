@@ -39,10 +39,10 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <TargetName>RAP64</TargetName>
+    <TargetName>RAProject64</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <TargetName>RAP64</TargetName>
+    <TargetName>RAProject64</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>
