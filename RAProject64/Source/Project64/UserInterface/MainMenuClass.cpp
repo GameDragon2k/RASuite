@@ -138,6 +138,8 @@ void CMainMenu::OnOpenRom(HWND hWnd)
         CPath FileName;
         if (FileName.SelectFile(hWnd, g_Settings->LoadStringVal(RomList_GameDir).c_str(), Filter, true))
         {
+			if (!RA_ConfirmLoadNewRom(false))
+				return;
             g_BaseSystem->RunFileImage(FileName);
         }
     }
@@ -590,6 +592,8 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
     default:
         if (MenuID >= ID_RECENT_ROM_START && MenuID < ID_RECENT_ROM_END)
         {
+			if (!RA_ConfirmLoadNewRom(false))
+				break;
             stdstr FileName;
             if (UISettingsLoadStringIndex(File_RecentGameFileIndex, MenuID - ID_RECENT_ROM_START, FileName) &&
                 FileName.length() > 0)
