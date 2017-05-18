@@ -2,8 +2,6 @@
 #include <stdafx.h>
 #include <stdio.h>
 #include <math.h>
-#include <gl\GL.h>
-//#include <WinGDI.h>
 #include <Project64-core/Plugins/ControllerPlugin.h>
 #include <Project64-core/N64System/SystemGlobals.h>
 
@@ -32,7 +30,7 @@ void CreateOverlay(HWND hwnd)
 		layeredWnd = CreateWindowEx(
 			(WS_EX_NOACTIVATE | WS_EX_TRANSPARENT | WS_EX_LAYERED),
 			wndEx.lpszClassName,
-			"RAWnd",
+			"RAP64",
 			(WS_POPUP),
 			CW_USEDEFAULT, CW_USEDEFAULT, rect.right, rect.bottom,
 			hwnd, NULL, wndEx.hInstance, NULL);
@@ -63,8 +61,6 @@ void UpdateOverlay(HDC hdc, RECT rect)
 	input.m_bConfirmPressed = Keys.A_BUTTON;
 	input.m_bQuitPressed	= Keys.START_BUTTON;
 
-	//bool paused = g_Settings->LoadBool(GameRunning_CPU_Paused);
-
 	RA_UpdateRenderOverlay(hdc, &input, ((float)nDelta / 1000.0f), &rect, 0, 0);
 }
 
@@ -91,92 +87,13 @@ void RenderAchievementsOverlay(HWND hwnd, HWND status)
 
 		// Get position of the client rect. (NOT the window rect)
 		ClientToScreen(hwnd, reinterpret_cast<POINT*>(&rect.left));
-		//ClientToScreen(hwnd, reinterpret_cast<POINT*>(&rect.right));
 
 		// Move layered window over MainWnd.
 		MoveWindow(layeredWnd, rect.left, rect.top, rect.right, rect.bottom, FALSE);
-		//SetWindowPos(layeredWnd, 0, rect.left, rect.top, 0, 0, SWP_NOSIZE | SWP_NOACTIVATE);
-		//SetWindowPos(hwnd, layeredWnd, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE); // Don't think this line is necessary on most OS, but just safety net.
 
 		ReleaseDC(layeredWnd, hdc);
 	}
 }
-
-/*
-void RenderAchievementsOverlay(HWND hwnd) {
-	//#RA:
-	//WARNING: Ugly Hack
-
-	return;
-
-	char currDir[2048];
-	GetCurrentDirectory(2048, currDir); // "where'd you get the multithreaded code, Ted?"
-
-	// Set up buffer and back buffer
-	if (layeredWnd == NULL)
-	{
-		CreateOverlay(hwnd);
-	}
-	else
-	{
-		HDC hdc = GetDC(hwnd);
-		static HDC hdcMem = NULL;
-		GetClientRect(hwnd, &rect);
-
-		//Set Pixel Format
-		PIXELFORMATDESCRIPTOR pfd;
-		ZeroMemory(&pfd, sizeof(pfd));      // set the pixel format for the DC
-		pfd.nSize = sizeof(pfd);
-		pfd.nVersion = 1;
-		pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-		pfd.iPixelType = PFD_TYPE_RGBA;
-		pfd.cColorBits = 24;
-		pfd.cDepthBits = 24;
-		pfd.iLayerType = PFD_MAIN_PLANE;
-		SetPixelFormat(hdc, ChoosePixelFormat(hdc, &pfd), &pfd);
-		SetPixelFormat(hdcMem, ChoosePixelFormat(hdcMem, &pfd), &pfd);
-
-		HGLRC hrc = wglCreateContext(hdc);
-		wglMakeCurrent(hdc, hrc);
-
-		static HBITMAP hBmp = NULL;
-		static HBITMAP hBmpOld = NULL;
-		if (!hdcMem) {
-			hdcMem = CreateCompatibleDC(hdc);
-			hBmp = CreateCompatibleBitmap(hdc, rect.right, rect.bottom);
-			hBmpOld = (HBITMAP)SelectObject(hdcMem, hBmp);
-		}
-
-		// Blits the MainWND to the back buffer.
-		BitBlt(hdcMem, 0, 0, rect.right, rect.bottom, hdc, 0, 0, SRCCOPY);
-
-		// Update RA stuff
-		UpdateOverlay(hdcMem, rect);
-
-		// Actually draw to the back buffer
-		// Not familiar with BLENDFUNCTION, may not be needed.
-		BLENDFUNCTION blend = { 0 };
-		blend.BlendOp = AC_SRC_OVER;
-		blend.SourceConstantAlpha = 255;
-		blend.AlphaFormat = AC_SRC_OVER;
-		POINT ptSrc = { 0, 0 };
-		SIZE sizeWnd = { rect.right, rect.bottom };
-		UpdateLayeredWindow(layeredWnd, hdc, NULL, &sizeWnd, hdcMem, &ptSrc, 0, &blend, ULW_ALPHA);
-
-		// Get position of the client rect. (NOT the window rect)
-		ClientToScreen(hwnd, reinterpret_cast<POINT*>(&rect.left));
-		ClientToScreen(hwnd, reinterpret_cast<POINT*>(&rect.right));
-
-		// Move layered window over MainWnd.
-		SetWindowPos(layeredWnd, 0, rect.left, rect.top, 0, 0, SWP_NOSIZE | SWP_NOACTIVATE);
-		SetWindowPos(hwnd, layeredWnd, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE); // Don't think this line is necessary on most OS, but just safety net.
-
-		ReleaseDC(hwnd, hdc);
-	}
-	
-
-	SetCurrentDirectory(currDir); // "Cowboys Ted! They're a bunch of cowboys!"
-}*/
 
 LRESULT CALLBACK OverlayWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
