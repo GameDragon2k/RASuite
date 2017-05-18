@@ -118,6 +118,8 @@ void CMainMenu::OnOpenRom(HWND hWnd)
     {
         return;
     }
+	if (!RA_ConfirmLoadNewRom(false))
+		return;
     stdstr ext = CPath(File).GetExtension();
     if (_stricmp(ext.c_str(), "ndd") != 0)
     {
@@ -138,8 +140,6 @@ void CMainMenu::OnOpenRom(HWND hWnd)
         CPath FileName;
         if (FileName.SelectFile(hWnd, g_Settings->LoadStringVal(RomList_GameDir).c_str(), Filter, true))
         {
-			if (!RA_ConfirmLoadNewRom(false))
-				return;
             g_BaseSystem->RunFileImage(FileName);
         }
     }
