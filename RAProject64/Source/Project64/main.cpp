@@ -27,7 +27,7 @@ void RAthread(HWND status)
 		RA_DoAchievementsFrame();
 
 		RenderAchievementsOverlay(hMainWindow, status);
-		Sleep(20);
+		Sleep(25);
 	}
 }
 
