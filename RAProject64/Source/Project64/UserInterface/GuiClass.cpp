@@ -152,21 +152,14 @@ void CMainGui::AddRecentRom(const char * ImagePath)
 
 void CMainGui::SetWindowCaption(const wchar_t * title)
 {
+	return; // Skip setting window title for now
+
     static const size_t TITLE_SIZE = 256;
     wchar_t WinTitle[TITLE_SIZE];
 
-    //_snwprintf(WinTitle, TITLE_SIZE, L"%s - %s", title, stdstr(g_Settings->LoadStringVal(Setting_ApplicationName)).ToUTF16().c_str());
+    _snwprintf(WinTitle, TITLE_SIZE, L"%s - %s", title, stdstr(g_Settings->LoadStringVal(Setting_ApplicationName)).ToUTF16().c_str());
     WinTitle[TITLE_SIZE - 1] = 0;
-    //Caption(WinTitle);
-
-	const char* c_title = new char[wcslen(title)];
-	WideCharToMultiByte(CP_ACP, WC_COMPOSITECHECK, (LPCWSTR)title, -1, (LPSTR)c_title, TITLE_SIZE, NULL, NULL);
-	string str = ""; //NAME and VERSION
-	str.append(" - ");
-	str.append(c_title);
-	str.append(" -");
-
-	RA_UpdateAppTitle(str.c_str());
+    Caption(WinTitle);
 }
 
 void CMainGui::ShowRomBrowser(void)
