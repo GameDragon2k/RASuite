@@ -17,12 +17,17 @@ void RAthread(HWND status)
 {
 	while (true)
 	{
+		while (g_Settings->LoadBool(GameRunning_LoadingInProgress))
+		{
+			Sleep(1); // Pauses the thread while game is beginning to load. Probably cleaner solution somewhere.
+		}
+
 		// #RA
 		RA_HandleHTTPResults();
 		RA_DoAchievementsFrame();
 
 		RenderAchievementsOverlay(hMainWindow, status);
-		Sleep(25);
+		Sleep(20);
 	}
 }
 
@@ -95,7 +100,7 @@ int WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /
 		//Initialize RA
 		hMainWindow = reinterpret_cast<HWND>(MainWindow.GetWindowHandle());
 		BringWindowToTop(hMainWindow);
-		RA_Init(hMainWindow, RA_Project64, "0.051");
+		RA_Init(hMainWindow, RA_Project64, "0.052");
 
 		RA_InitShared();
 		RA_UpdateAppTitle("");
@@ -130,6 +135,7 @@ int WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /
         WriteTrace(TraceUserInterface, TraceError, "Exception caught (File: \"%s\" Line: %d)", __FILE__, __LINE__);
         MessageBox(NULL, stdstr_f("Exception caught\nFile: %s\nLine: %d", __FILE__, __LINE__).c_str(), "Exception", MB_OK);
     }
+	RA_Shutdown();
     AppCleanup();
     CoUninitialize();
     return true;
