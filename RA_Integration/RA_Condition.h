@@ -117,6 +117,8 @@ public:
 	inline CompVariable& CompTarget()			{ return m_nCompTarget; }
 	inline BOOL IsResetCondition() const		{ return m_bIsResetCondition; }
 	inline BOOL IsPauseCondition() const		{ return m_bIsPauseCondition; }
+	inline BOOL IsAddCondition() const			{ return m_bIsAddCondition; }
+	inline BOOL IsSubCondition() const			{ return m_bIsSubCondition; }
 
 	inline const CompVariable& CompSource() const	{ return m_nCompSource; }
 	inline const CompVariable& CompTarget() const	{ return m_nCompTarget; }
@@ -128,9 +130,11 @@ public:
 
 	void OverrideCurrentHits(unsigned int nHits){ m_nCurrentHits = nHits; }
 
-	void SetIsBasicCondition()					{ m_bIsResetCondition = FALSE; m_bIsPauseCondition = FALSE; }
-	void SetIsPauseCondition()					{ m_bIsResetCondition = FALSE; m_bIsPauseCondition = TRUE; }
-	void SetIsResetCondition()					{ m_bIsResetCondition = TRUE; m_bIsPauseCondition = FALSE; }
+	void SetIsBasicCondition()					{ m_bIsResetCondition = FALSE; m_bIsPauseCondition = FALSE; m_bIsAddCondition = FALSE; m_bIsSubCondition = FALSE; }
+	void SetIsPauseCondition()					{ m_bIsResetCondition = FALSE; m_bIsPauseCondition = TRUE; m_bIsAddCondition = FALSE; m_bIsSubCondition = FALSE; }
+	void SetIsResetCondition()					{ m_bIsResetCondition = TRUE; m_bIsPauseCondition = FALSE; m_bIsAddCondition = FALSE; m_bIsSubCondition = FALSE; }
+	void SetIsAddCondition()					{ m_bIsResetCondition = FALSE; m_bIsPauseCondition = FALSE; m_bIsAddCondition = TRUE; m_bIsSubCondition = FALSE; }
+	void SetIsSubCondition()					{ m_bIsResetCondition = FALSE; m_bIsPauseCondition = FALSE; m_bIsAddCondition = FALSE; m_bIsSubCondition = TRUE; }
 
 	void Set( const Condition& rRHS )			{ (*this) = rRHS; }
 
@@ -144,6 +148,8 @@ private:
 
 	BOOL 			m_bIsResetCondition;
 	BOOL 			m_bIsPauseCondition;
+	BOOL			m_bIsAddCondition;
+	BOOL			m_bIsSubCondition;
 };
 
 class ConditionSet

@@ -121,7 +121,7 @@ char* Achievement::ParseLine( char* pBuffer )
 			nNewCond.ParseFromString( pBuffer );
 			NewConditionGroup.push_back( nNewCond );
 		}
-		while( *pBuffer == '_' || *pBuffer == 'R' || *pBuffer == 'P' ); //	AND, ResetIf, PauseIf
+		while( *pBuffer == '_' || *pBuffer == 'R' || *pBuffer == 'P' || *pBuffer == 'A' || *pBuffer == 'B'); //	AND, ResetIf, PauseIf, AddSource
 
 		for( i = 0; i < NewConditionGroup.size(); ++i )
 			AddCondition( nCondGroupID, NewConditionGroup[i] );
@@ -448,10 +448,14 @@ int Achievement::CreateMemString( char* pStrOut, const int nNumChars )
 			sDelta = (pNextCond->CompSource().m_nVarType==CMPTYPE_DELTAMEM) ? "d" : "";
 			sSize = "";
 
-			if( pNextCond->IsResetCondition() )
-				strcat_s( sNextCondition, 256, "R:" );
-			else if( pNextCond->IsPauseCondition() )
-				strcat_s( sNextCondition, 256, "P:" );
+			if (pNextCond->IsResetCondition())
+				strcat_s(sNextCondition, 256, "R:");
+			else if (pNextCond->IsPauseCondition())
+				strcat_s(sNextCondition, 256, "P:");
+			else if (pNextCond->IsAddCondition())
+				strcat_s(sNextCondition, 256, "A:");
+			else if (pNextCond->IsSubCondition())
+				strcat_s(sNextCondition, 256, "B:");
 
 			if( pNextCond->CompSource().m_nVarType != CMPTYPE_VALUE )
 			{

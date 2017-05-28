@@ -13,6 +13,8 @@ namespace
 
 	const char* g_CmpStrings[] = { "=", "<", "<=", ">", ">=", "!=" };
 	const int g_NumCompTypes = sizeof( g_CmpStrings ) / sizeof( g_CmpStrings[0] );
+
+	int g_AddBuffer = 0;
 };
 
 
@@ -27,6 +29,16 @@ void Condition::ParseFromString( char*& pBuffer )
 	{
 		SetIsPauseCondition();
 		pBuffer+=2;
+	}
+	else if (pBuffer[0] == 'A' && pBuffer[1] == ':')
+	{
+		SetIsAddCondition();
+		pBuffer += 2;
+	}
+	else if (pBuffer[0] == 'B' && pBuffer[1] == ':')
+	{
+		SetIsSubCondition();
+		pBuffer += 2;
 	}
 	else
 	{
@@ -302,7 +314,7 @@ BOOL Condition::Compare()
 {
 	BOOL bValid = TRUE;
 
-	unsigned int nLHS = m_nCompSource.GetValue();
+	unsigned int nLHS = m_nCompSource.GetValue() + g_AddBuffer;
 	unsigned int nRHS = m_nCompTarget.GetValue();
 
 	switch( m_nComparison )
@@ -335,6 +347,7 @@ BOOL Condition::Compare()
 
 BOOL ConditionSet::Test( BOOL& bDirtyConditions, BOOL& bResetRead, BOOL bMatchAny )
 {
+	g_AddBuffer = 0;
 	BOOL bConditionValid = FALSE;
 	BOOL bSetValid = TRUE;
 	BOOL bPauseActive = FALSE;
@@ -372,10 +385,27 @@ BOOL ConditionSet::Test( BOOL& bDirtyConditions, BOOL& bResetRead, BOOL bMatchAn
 		if( pNextCond->IsPauseCondition() || pNextCond->IsResetCondition() )
 			continue;
 
+		if (pNextCond->IsAddCondition())
+		{
+			g_AddBuffer += pNextCond->CompSource().GetValue();
+			bSetValid &= TRUE;
+			pNextCond->SetRequiredHits(g_AddBuffer);
+			continue;
+		}
+
+		if (pNextCond->IsSubCondition())
+		{
+			g_AddBuffer -= pNextCond->CompSource().GetValue();
+			bSetValid &= TRUE;
+			pNextCond->SetRequiredHits(g_AddBuffer);
+			continue;
+		}
+
 		if( pNextCond->RequiredHits() != 0 && pNextCond->IsComplete() )
 			continue;
 
 		bConditionValid = pNextCond->Compare();
+		g_AddBuffer = 0;
 		if( bConditionValid )
 		{
 			pNextCond->IncrHits();

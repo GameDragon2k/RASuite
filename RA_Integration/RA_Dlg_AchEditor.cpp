@@ -30,8 +30,8 @@
 //	NOTE: ENSURE that these match up with the definitions in Achievement.h!
 //	Add static assert?
 
-const char* g_sColTitles[] = { "ID", "Special?", "Type", "Size", "Memory", "Cmp", "Type", "Size", "Mem/Val", "Hits" };
-const int g_nColSizes[] = { 30, 53, 42, 50, 60, 35, 42, 50, 60, 48 };
+const char* g_sColTitles[] = { "ID", "Flag", "Type", "Size", "Memory", "Cmp", "Type", "Size", "Mem/Val", "Hits" };
+const int g_nColSizes[] = { 30, 75, 42, 50, 60, 35, 42, 50, 60, 60 };
 
 enum CondSubItems
 {
@@ -182,12 +182,12 @@ void Dlg_AchievementEditor::SetupColumns( HWND hList )
 
 }
 
-const int Dlg_AchievementEditor::AddCondition( HWND hList, const Condition& Cond )
+const int Dlg_AchievementEditor::AddCondition(HWND hList, const Condition& Cond)
 {
 	//	Add to our local array:
 
-	BOOL bDeltaSrc = ( Cond.CompSource().m_nVarType == CMPTYPE_DELTAMEM );
-	BOOL bDeltaDst = ( Cond.CompTarget().m_nVarType == CMPTYPE_DELTAMEM );
+	BOOL bDeltaSrc = (Cond.CompSource().m_nVarType == CMPTYPE_DELTAMEM);
+	BOOL bDeltaDst = (Cond.CompTarget().m_nVarType == CMPTYPE_DELTAMEM);
 
 	unsigned int nValSrc = Cond.CompSource().m_nVal;
 	unsigned int nValDst = Cond.CompTarget().m_nVal;
@@ -195,40 +195,44 @@ const int Dlg_AchievementEditor::AddCondition( HWND hList, const Condition& Cond
 	unsigned int nValTypeSrc = Cond.CompSource().m_nVarSize;
 	unsigned int nValTypeDst = Cond.CompTarget().m_nVarSize;
 
-	const char* sCmpStr = g_CmpStrings[ (int)Cond.ComparisonType() ];
+	const char* sCmpStr = g_CmpStrings[(int)Cond.ComparisonType()];
 
 	const char* sMemTypStrSrc = "Value";
 	const char* sMemTypStrDst = "Value";
 	const char* sMemSizeStrSrc = "";
 	const char* sMemSizeStrDst = "";
 
-	if( Cond.CompSource().m_nVarType != CMPTYPE_VALUE )
+	if (Cond.CompSource().m_nVarType != CMPTYPE_VALUE)
 	{
-		sMemSizeStrSrc = g_MemSizeStrings[ (int)Cond.CompSource().m_nVarSize ];
-		sMemTypStrSrc = Cond.CompSource().m_nVarType==CMPTYPE_ADDRESS ? "Mem" : "Delta";
+		sMemSizeStrSrc = g_MemSizeStrings[(int)Cond.CompSource().m_nVarSize];
+		sMemTypStrSrc = Cond.CompSource().m_nVarType == CMPTYPE_ADDRESS ? "Mem" : "Delta";
 	}
 
-	if( Cond.CompTarget().m_nVarType != CMPTYPE_VALUE )
+	if (Cond.CompTarget().m_nVarType != CMPTYPE_VALUE)
 	{
-		sMemSizeStrDst = g_MemSizeStrings[ (int)Cond.CompTarget().m_nVarSize ];
-		sMemTypStrDst = Cond.CompTarget().m_nVarType==CMPTYPE_ADDRESS ? "Mem" : "Delta";
+		sMemSizeStrDst = g_MemSizeStrings[(int)Cond.CompTarget().m_nVarSize];
+		sMemTypStrDst = Cond.CompTarget().m_nVarType == CMPTYPE_ADDRESS ? "Mem" : "Delta";
 	}
-	
-	const char* sGroup = Cond.IsResetCondition() ? "ResetIf:" : Cond.IsPauseCondition() ? "PauseIf:" : "";
 
-	sprintf_s( m_lbxData[m_nNumOccupiedRows][CSI_ID], g_nMaxMemStringTextItemSize, "%d", m_nNumOccupiedRows+1 );
-	strcpy_s( m_lbxData[m_nNumOccupiedRows][CSI_GROUP], g_nMaxMemStringTextItemSize, sGroup );
-	strcpy_s( m_lbxData[m_nNumOccupiedRows][CSI_TYPE_SRC], g_nMaxMemStringTextItemSize, sMemTypStrSrc );
-	strcpy_s( m_lbxData[m_nNumOccupiedRows][CSI_SIZE_SRC], g_nMaxMemStringTextItemSize, sMemSizeStrSrc );
-	if( g_MemManager.RAMTotalSize() > 65536 )
-		sprintf_s( m_lbxData[m_nNumOccupiedRows][CSI_VALUE_SRC], g_nMaxMemStringTextItemSize, "0x%06x", nValSrc );
+	const char* sGroup = Cond.IsResetCondition() ? "ResetIf"
+		: Cond.IsPauseCondition() ? "PauseIf"
+		: Cond.IsAddCondition() ? "Add Source"
+		: Cond.IsSubCondition() ? "Sub Source"
+		: "";
+
+	sprintf_s(m_lbxData[m_nNumOccupiedRows][CSI_ID], g_nMaxMemStringTextItemSize, "%d", m_nNumOccupiedRows + 1);
+	strcpy_s(m_lbxData[m_nNumOccupiedRows][CSI_GROUP], g_nMaxMemStringTextItemSize, sGroup);
+	strcpy_s(m_lbxData[m_nNumOccupiedRows][CSI_TYPE_SRC], g_nMaxMemStringTextItemSize, sMemTypStrSrc);
+	strcpy_s(m_lbxData[m_nNumOccupiedRows][CSI_SIZE_SRC], g_nMaxMemStringTextItemSize, sMemSizeStrSrc);
+	if (g_MemManager.RAMTotalSize() > 65536)
+		sprintf_s(m_lbxData[m_nNumOccupiedRows][CSI_VALUE_SRC], g_nMaxMemStringTextItemSize, "0x%06x", nValSrc);
 	else
-		sprintf_s( m_lbxData[m_nNumOccupiedRows][CSI_VALUE_SRC], g_nMaxMemStringTextItemSize, "0x%04x", nValSrc );
-	strcpy_s( m_lbxData[m_nNumOccupiedRows][CSI_COMPARISON], g_nMaxMemStringTextItemSize, sCmpStr );
-	strcpy_s( m_lbxData[m_nNumOccupiedRows][CSI_TYPE_TGT], g_nMaxMemStringTextItemSize, sMemTypStrDst );
-	strcpy_s( m_lbxData[m_nNumOccupiedRows][CSI_SIZE_TGT], g_nMaxMemStringTextItemSize, sMemSizeStrDst );
-	sprintf_s( m_lbxData[m_nNumOccupiedRows][CSI_VALUE_TGT], g_nMaxMemStringTextItemSize, "0x%02x", nValDst );
-	sprintf_s( m_lbxData[m_nNumOccupiedRows][CSI_HITCOUNT], g_nMaxMemStringTextItemSize, "%d (%d)", Cond.RequiredHits(), Cond.CurrentHits() );
+		sprintf_s(m_lbxData[m_nNumOccupiedRows][CSI_VALUE_SRC], g_nMaxMemStringTextItemSize, "0x%04x", nValSrc);
+	strcpy_s(m_lbxData[m_nNumOccupiedRows][CSI_COMPARISON], g_nMaxMemStringTextItemSize, sCmpStr);
+	strcpy_s(m_lbxData[m_nNumOccupiedRows][CSI_TYPE_TGT], g_nMaxMemStringTextItemSize, sMemTypStrDst);
+	strcpy_s(m_lbxData[m_nNumOccupiedRows][CSI_SIZE_TGT], g_nMaxMemStringTextItemSize, sMemSizeStrDst);
+	sprintf_s(m_lbxData[m_nNumOccupiedRows][CSI_VALUE_TGT], g_nMaxMemStringTextItemSize, "0x%02x", nValDst);
+	sprintf_s(m_lbxData[m_nNumOccupiedRows][CSI_HITCOUNT], g_nMaxMemStringTextItemSize, "%d (%d)", Cond.RequiredHits(), Cond.CurrentHits());
 
 	if( g_bPreferDecimalVal )
 	{
@@ -602,7 +606,11 @@ BOOL CreateIPE( int nItem, int nSubItem )
 				const size_t nGrp = g_AchievementEditorDialog.GetSelectedConditionGroup();
 				Condition& rCond = g_AchievementEditorDialog.ActiveAchievement()->GetCondition( nGrp, nItem );
 				//char* sNewText = rCond.IsResetCondition() ? "" : "ResetIf:";
-				char* sNewText = rCond.IsResetCondition() ? "PauseIf:" : rCond.IsPauseCondition() ? "" : "ResetIf:";
+				char* sNewText = rCond.IsResetCondition() ? "PauseIf" 
+					: rCond.IsPauseCondition() ?  "Add Source" 
+					: rCond.IsAddCondition() ? "Sub Source" 
+					: rCond.IsSubCondition() ? ""
+					: "ResetIf";
 
 				HWND hList = GetDlgItem( g_AchievementEditorDialog.GetHWND(), IDC_RA_LBX_CONDITIONS );
 
@@ -621,13 +629,21 @@ BOOL CreateIPE( int nItem, int nSubItem )
 				strcpy_s( sData, g_nMaxMemStringTextItemSize, sNewText );
 
 				//	Update the achievement data
-				if( strcmp( sNewText, "ResetIf:" ) == 0 )
+				if( strcmp( sNewText, "ResetIf" ) == 0 )
 				{
 					rCond.SetIsResetCondition();
 				}
-				else if( strcmp( sNewText, "PauseIf:" ) == 0 )
+				else if( strcmp( sNewText, "PauseIf" ) == 0 )
 				{
 					rCond.SetIsPauseCondition();
+				}
+				else if (strcmp(sNewText, "Add Source") == 0)
+				{
+					rCond.SetIsAddCondition();
+				}
+				else if (strcmp(sNewText, "Sub Source") == 0)
+				{
+					rCond.SetIsSubCondition();
 				}
 				else
 				{
@@ -1089,15 +1105,15 @@ INT_PTR Dlg_AchievementEditor::AchievementEditorProc( HWND hDlg, UINT uMsg, WPAR
 				Condition NewCondition;
 				NewCondition.SetIsBasicCondition();
 
-				NewCondition.CompSource().m_nVarSize = CMP_SZ_16BIT;
+				NewCondition.CompSource().m_nVarSize = CMP_SZ_8BIT;
 				NewCondition.CompSource().m_nVarType = CMPTYPE_ADDRESS;
 				NewCondition.CompSource().m_nVal = 0x8000;
 
 				NewCondition.ComparisonType() = CMP_EQ;
 
-				NewCondition.CompTarget().m_nVarSize = CMP_SZ_16BIT;
+				NewCondition.CompTarget().m_nVarSize = CMP_SZ_8BIT;
 				NewCondition.CompTarget().m_nVarType = CMPTYPE_VALUE;
-				NewCondition.CompTarget().m_nVal = 10;
+				NewCondition.CompTarget().m_nVal = 0;
 
 				//	Helper: guess that the currently watched memory location
 				//	 is probably what they are about to want to add a cond for.
