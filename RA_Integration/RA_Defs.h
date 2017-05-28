@@ -17,7 +17,7 @@
 #else
 
 //NB. These must NOT be accessible from the emulator!
-#define RA_INTEGRATION_VERSION	"0.0510535"  // sms 535 (sue me)
+#define RA_INTEGRATION_VERSION	"0.6401"
 
 #endif	//RA_EXPORTS
 
