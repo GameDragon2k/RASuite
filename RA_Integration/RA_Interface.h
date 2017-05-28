@@ -43,6 +43,8 @@ extern void RA_GetEstimatedGameTitle( char* sNameOut );
 extern void RA_ResetEmulation();
 extern void RA_LoadROM( char* sFullPath );
 
+extern bool doRAThread;
+
 #ifndef RA_EXPORTS
 
 #include <wtypes.h>

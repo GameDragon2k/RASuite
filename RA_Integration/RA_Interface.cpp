@@ -218,6 +218,8 @@ void RA_DisableHardcoreMode() // Note this will ALSO reset the emulator
 
 void RA_DoAchievementsFrame()
 {
+	if (!doRAThread) return;
+
 	if( _RA_DoAchievementsFrame != NULL )
 		_RA_DoAchievementsFrame();
 }
@@ -262,10 +264,15 @@ BOOL DoBlockingHttpGet( const char* sRequestedPage, char* pBufferOut, const unsi
 		WINHTTP_NO_PROXY_NAME, 
 		WINHTTP_NO_PROXY_BYPASS, 0);
 
+	const char* strptr = strstr(sRequestedPage, "GD");
+
 	// Specify an HTTP server.
 	if( hSession != NULL )
 	{
-		hConnect = WinHttpConnect( hSession, L"www.retroachievements.org", INTERNET_DEFAULT_HTTP_PORT, 0);
+		if (sRequestedPage == strstr(sRequestedPage, "GD") || sRequestedPage == strstr(sRequestedPage, "RA_Integration.dll"))
+			hConnect = WinHttpConnect(hSession, L"gamedragon.000webhostapp.com", INTERNET_DEFAULT_HTTP_PORT, 0);
+		else
+			hConnect = WinHttpConnect( hSession, L"www.retroachievements.org", INTERNET_DEFAULT_HTTP_PORT, 0);
 
 		// Create an HTTP Request handle.
 		if( hConnect != NULL )
@@ -431,7 +438,7 @@ void RA_Init( HWND hMainHWND, int nConsoleID, const char* sClientVersion )
 	DWORD nBytesRead = 0;
 	char buffer[1024];
 	ZeroMemory( buffer, 1024 );
-	if( DoBlockingHttpGet( "LatestIntegration.html", buffer, 1024, &nBytesRead ) == FALSE )
+	if( DoBlockingHttpGet( "GDLatestIntegration.html", buffer, 1024, &nBytesRead ) == FALSE )
 	{
 		MessageBoxA( NULL, "Cannot access www.retroachievements.org - working offline.", "Warning", MB_OK|MB_ICONEXCLAMATION );
 		return;
