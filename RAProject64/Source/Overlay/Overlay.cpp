@@ -82,7 +82,7 @@ void RenderAchievementsOverlay(HWND hwnd, HWND status)
 		HDC hdc = GetDC(layeredWnd);
 		FillRect(hdc, &rect, hbrush);
 
-		if (g_Settings->LoadBool(GameRunning_CPU_Running) || g_Settings->LoadBool(GameRunning_CPU_Paused))
+		if ((g_Settings->LoadBool(GameRunning_CPU_Running) || g_Settings->LoadBool(GameRunning_CPU_Paused)) && doRAThread)
 			UpdateOverlay(hdc, rect);
 
 		// Get position of the client rect. (NOT the window rect)

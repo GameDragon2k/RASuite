@@ -323,6 +323,7 @@ bool CN64System::LoadFileImage(const char * FileLoc)
 
 bool CN64System::RunFileImage(const char * FileLoc)
 {
+	doRAThread = false;
     if (!LoadFileImage(FileLoc))
     {
         return false;
@@ -349,6 +350,7 @@ void CN64System::RunLoadedImage(void)
     }
 	// #RA
 	RA_OnLoadNewRom(g_Rom->GetRomAddress(), g_Rom->GetRomSize(), g_MMU->Rdram(), g_MMU->RdramSize(), NULL, 0);
+	doRAThread = true;
     WriteTrace(TraceN64System, TraceDebug, "Done");
 }
 

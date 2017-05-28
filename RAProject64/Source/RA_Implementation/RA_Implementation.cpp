@@ -6,8 +6,6 @@
 
 //#include "Project64\UserInterface\Settings\SettingsPage.h"
 
-
-
 // returns -1 if not found
 int GetMenuItemIndex(HMENU hMenu, const char* ItemName)
 {

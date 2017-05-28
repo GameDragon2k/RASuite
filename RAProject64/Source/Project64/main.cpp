@@ -3,7 +3,7 @@
 #include "Multilanguage\LanguageSelector.h"
 #include "Settings/UISettings.h"
 
-#include "RA_Implementation\RA_Implementation.h"
+#include "../RA_Implementation/RA_Implementation.h"
 #include "RA_Interface.h"
 #include "RA_Resource.h"
 #include "Overlay/Overlay.h"
@@ -12,17 +12,13 @@
 #define RA_TIMER 1;
 
 HWND hMainWindow;
+bool doRAThread = true;
 bool quit_overlay_thread = false;
 
 void RAthread(HWND status)
 {
 	while (!quit_overlay_thread)
 	{
-		while (g_Settings->LoadBool(GameRunning_LoadingInProgress))
-		{
-			Sleep(1); // Pauses the thread while game is beginning to load. Probably cleaner solution somewhere.
-		}
-
 		// #RA
 		RA_HandleHTTPResults();
 		RA_DoAchievementsFrame();
