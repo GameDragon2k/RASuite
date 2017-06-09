@@ -15,6 +15,7 @@ namespace
 	const int g_NumCompTypes = sizeof( g_CmpStrings ) / sizeof( g_CmpStrings[0] );
 
 	int g_AddBuffer = 0;
+	int g_AddHits = 0;
 };
 
 
@@ -38,6 +39,11 @@ void Condition::ParseFromString( char*& pBuffer )
 	else if (pBuffer[0] == 'B' && pBuffer[1] == ':')
 	{
 		SetIsSubCondition();
+		pBuffer += 2;
+	}
+	else if (pBuffer[0] == 'C' && pBuffer[1] == ':')
+	{
+		SetIsAddHitsCondition();
 		pBuffer += 2;
 	}
 	else
@@ -348,6 +354,7 @@ BOOL Condition::Compare()
 BOOL ConditionSet::Test( BOOL& bDirtyConditions, BOOL& bResetRead, BOOL bMatchAny )
 {
 	g_AddBuffer = 0;
+	g_AddHits = 0;
 	BOOL bConditionValid = FALSE;
 	BOOL bSetValid = TRUE;
 	BOOL bPauseActive = FALSE;
@@ -389,7 +396,7 @@ BOOL ConditionSet::Test( BOOL& bDirtyConditions, BOOL& bResetRead, BOOL bMatchAn
 		{
 			g_AddBuffer += pNextCond->CompSource().GetValue();
 			bSetValid &= TRUE;
-			pNextCond->SetRequiredHits(g_AddBuffer);
+			//pNextCond->SetRequiredHits(g_AddBuffer);
 			continue;
 		}
 
@@ -397,15 +404,29 @@ BOOL ConditionSet::Test( BOOL& bDirtyConditions, BOOL& bResetRead, BOOL bMatchAn
 		{
 			g_AddBuffer -= pNextCond->CompSource().GetValue();
 			bSetValid &= TRUE;
-			pNextCond->SetRequiredHits(g_AddBuffer);
+			//pNextCond->SetRequiredHits(g_AddBuffer);
 			continue;
 		}
 
-		if( pNextCond->RequiredHits() != 0 && pNextCond->IsComplete() )
+		if (pNextCond->IsAddHitsCondition())
+		{
+			if (pNextCond->Compare())
+			{
+				pNextCond->IncrHits();
+				bDirtyConditions = TRUE;
+			}
+
+			g_AddHits += pNextCond->CurrentHits();
 			continue;
+		}
+
+		if (pNextCond->RequiredHits() != 0 && (pNextCond->CurrentHits() + g_AddHits >= pNextCond->RequiredHits()) )
+		{
+			continue;
+		}
 
 		bConditionValid = pNextCond->Compare();
-		g_AddBuffer = 0;
+
 		if( bConditionValid )
 		{
 			pNextCond->IncrHits();
@@ -417,7 +438,7 @@ BOOL ConditionSet::Test( BOOL& bDirtyConditions, BOOL& bResetRead, BOOL bMatchAn
 			{
 				//	Not a hit-based requirement: ignore any additional logic!
 			}
-			else if( !pNextCond->IsComplete() )
+			else if( pNextCond->CurrentHits() + g_AddHits < pNextCond->RequiredHits() )
 			{
 				//	Not entirely valid yet!
 				bConditionValid = FALSE;
@@ -426,6 +447,9 @@ BOOL ConditionSet::Test( BOOL& bDirtyConditions, BOOL& bResetRead, BOOL bMatchAn
 			if( bMatchAny )	//	'or'
 				break;
 		}
+
+		g_AddBuffer = 0;
+		g_AddHits = 0;
 
 		//	Sequential or non-sequential?
 		bSetValid &= bConditionValid;

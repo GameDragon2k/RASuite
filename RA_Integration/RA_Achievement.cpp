@@ -121,7 +121,7 @@ char* Achievement::ParseLine( char* pBuffer )
 			nNewCond.ParseFromString( pBuffer );
 			NewConditionGroup.push_back( nNewCond );
 		}
-		while( *pBuffer == '_' || *pBuffer == 'R' || *pBuffer == 'P' || *pBuffer == 'A' || *pBuffer == 'B'); //	AND, ResetIf, PauseIf, AddSource
+		while( *pBuffer == '_' || *pBuffer == 'R' || *pBuffer == 'P' || *pBuffer == 'A' || *pBuffer == 'B' || *pBuffer == 'C'); //	AND, ResetIf, PauseIf, AddSource, SubSource, AddFlag
 
 		for( i = 0; i < NewConditionGroup.size(); ++i )
 			AddCondition( nCondGroupID, NewConditionGroup[i] );
@@ -456,6 +456,8 @@ int Achievement::CreateMemString( char* pStrOut, const int nNumChars )
 				strcat_s(sNextCondition, 256, "A:");
 			else if (pNextCond->IsSubCondition())
 				strcat_s(sNextCondition, 256, "B:");
+			else if (pNextCond->IsAddHitsCondition())
+				strcat_s(sNextCondition, 256, "C:");
 
 			if( pNextCond->CompSource().m_nVarType != CMPTYPE_VALUE )
 			{

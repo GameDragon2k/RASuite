@@ -218,6 +218,7 @@ const int Dlg_AchievementEditor::AddCondition(HWND hList, const Condition& Cond)
 		: Cond.IsPauseCondition() ? "PauseIf"
 		: Cond.IsAddCondition() ? "Add Source"
 		: Cond.IsSubCondition() ? "Sub Source"
+		: Cond.IsAddHitsCondition() ? "Add Hits"
 		: "";
 
 	sprintf_s(m_lbxData[m_nNumOccupiedRows][CSI_ID], g_nMaxMemStringTextItemSize, "%d", m_nNumOccupiedRows + 1);
@@ -609,7 +610,8 @@ BOOL CreateIPE( int nItem, int nSubItem )
 				char* sNewText = rCond.IsResetCondition() ? "PauseIf" 
 					: rCond.IsPauseCondition() ?  "Add Source" 
 					: rCond.IsAddCondition() ? "Sub Source" 
-					: rCond.IsSubCondition() ? ""
+					: rCond.IsSubCondition() ? "Add Hits"
+					: rCond.IsAddHitsCondition() ? ""
 					: "ResetIf";
 
 				HWND hList = GetDlgItem( g_AchievementEditorDialog.GetHWND(), IDC_RA_LBX_CONDITIONS );
@@ -644,6 +646,10 @@ BOOL CreateIPE( int nItem, int nSubItem )
 				else if (strcmp(sNewText, "Sub Source") == 0)
 				{
 					rCond.SetIsSubCondition();
+				}
+				else if (strcmp(sNewText, "Add Hits") == 0)
+				{
+					rCond.SetIsAddHitsCondition();
 				}
 				else
 				{
