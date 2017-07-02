@@ -333,18 +333,18 @@ INT_PTR CALLBACK Dlg_Achievements::s_AchievementsProc(HWND hDlg, UINT uMsg, WPAR
 
 BOOL AttemptUploadAchievementBlocking( Achievement& Ach, unsigned int nFlags, char* pBuffer, const DWORD nBufferSize, DWORD& nCharsRead )
 {	
-	char sMem[2048];
-	memset( sMem, '\0', 2048 );
-	int nNumChars = Ach.CreateMemString( sMem, 2048 );
+	char sMem[4096];
+	memset( sMem, '\0', 4096);
+	int nNumChars = Ach.CreateMemString( sMem, 4096);
 
-	char stringsToEncode[6][1024];
-	memset( stringsToEncode, '\0', 6*1024 );
-	strcpy_s( stringsToEncode[0], 1024, Ach.Title() );
-	strcpy_s( stringsToEncode[1], 1024, Ach.Description() );
-	strcpy_s( stringsToEncode[2], 1024, sMem );
-	strcpy_s( stringsToEncode[3], 1024, Ach.Progress() );
-	strcpy_s( stringsToEncode[4], 1024, Ach.ProgressMax() );
-	strcpy_s( stringsToEncode[5], 1024, Ach.ProgressFmt() );
+	char stringsToEncode[6][2048];
+	memset( stringsToEncode, '\0', 6*2048 );
+	strcpy_s( stringsToEncode[0], 2048, Ach.Title() );
+	strcpy_s( stringsToEncode[1], 2048, Ach.Description() );
+	strcpy_s( stringsToEncode[2], 2048, sMem );
+	strcpy_s( stringsToEncode[3], 2048, Ach.Progress() );
+	strcpy_s( stringsToEncode[4], 2048, Ach.ProgressMax() );
+	strcpy_s( stringsToEncode[5], 2048, Ach.ProgressFmt() );
 
 	//urlEncode( stringsToEncode, 6 );
 	
