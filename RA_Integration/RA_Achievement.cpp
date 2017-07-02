@@ -1058,8 +1058,8 @@ BOOL AchievementSet::Save()
 {
 	//	Takes all achievements in this group and dumps them in the filename provided.
 	FILE* pFile = NULL;
-	char sNextLine[2048];
-	char sMem[2048];
+	char sNextLine[4096];
+	char sMem[4096];
 
 	char sFilename[1024];
 	unsigned int i = 0;
@@ -1069,21 +1069,21 @@ BOOL AchievementSet::Save()
 	fopen_s( &pFile, sFilename, "w" );
 	if( pFile != NULL )
 	{
-		sprintf_s( sNextLine, 2048, "0.022\n" );						//	Min ver
+		sprintf_s( sNextLine, 4096, "0.022\n" );						//	Min ver
 		fwrite( sNextLine, sizeof(char), strlen(sNextLine), pFile );
 
-		sprintf_s( sNextLine, 2048, "%s\n", m_sPreferredGameTitle );
+		sprintf_s( sNextLine, 4096, "%s\n", m_sPreferredGameTitle );
 		fwrite( sNextLine, sizeof(char), strlen(sNextLine), pFile );
 
 		for( i = 0; i < m_nNumAchievements; ++i )
 		{
 			Achievement* pAch = &m_Achievements[i];
 
-			ZeroMemory( sMem, 2048 );
-			pAch->CreateMemString( sMem, 2048 );
+			ZeroMemory( sMem, 4096 );
+			pAch->CreateMemString( sMem, 4096 );
 
-			ZeroMemory( sNextLine, 2048 );
-			sprintf_s( sNextLine, 2048, "%d:%s:%s:%s:%s:%s:%s:%s:%d:%lu:%lu:%d:%d:%s\n",
+			ZeroMemory( sNextLine, 4096 );
+			sprintf_s( sNextLine, 4096, "%d:%s:%s:%s:%s:%s:%s:%s:%d:%lu:%lu:%d:%d:%s\n",
 				pAch->ID(),
 				sMem,
 				pAch->Title(),
