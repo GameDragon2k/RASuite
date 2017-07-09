@@ -22,7 +22,7 @@ void CreateOverlay(HWND hwnd)
 		wndEx.cbWndExtra  = sizeof(wndEx);
 		wndEx.lpszClassName = "RA_WND_CLASS";
 		wndEx.lpfnWndProc = OverlayWndProc;
-		wndEx.hbrBackground = NULL;
+		wndEx.hbrBackground = hbrush;
 		wndEx.hInstance = (HINSTANCE)GetWindowLong(hwnd, GWL_HINSTANCE);
 		int result = RegisterClass(&wndEx);
 
