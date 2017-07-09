@@ -63,3 +63,33 @@ void md5_GenerateMD5Raw( const unsigned char* rawIn, const unsigned int nLen, ch
 			  digest[0],digest[1],digest[2],digest[3],digest[4],digest[5],digest[6],digest[7],
 			  digest[8],digest[9],digest[10],digest[11],digest[12],digest[13],digest[14],digest[15] );
 }
+
+void md5_GenerateMD5Plain(const char* fileName, char* strOut)
+{
+	const static unsigned int StrOutLen = 33;
+	FILE *fInput;
+	unsigned char bBuffer[4096];
+
+	md5_state_t pms;
+	md5_byte_t digest[16];
+
+	memset(strOut, 0, StrOutLen);
+	md5_init(&pms);
+
+	fInput = fopen(fileName, "rb");
+
+	while (!feof(fInput))
+	{
+		unsigned int nCount = fread(bBuffer, sizeof(unsigned char), 4096, fInput);
+		md5_append(&pms, bBuffer, nCount);
+	}
+	md5_finish(&pms, digest);
+
+	fclose(fInput);
+
+	sprintf_s(strOut, StrOutLen,
+		"%02x%02x%02x%02x%02x%02x%02x%02x"
+		"%02x%02x%02x%02x%02x%02x%02x%02x",
+		digest[0], digest[1], digest[2], digest[3], digest[4], digest[5], digest[6], digest[7],
+		digest[8], digest[9], digest[10], digest[11], digest[12], digest[13], digest[14], digest[15]);
+}

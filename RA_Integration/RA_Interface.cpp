@@ -72,7 +72,7 @@ int		(CCONV *_RA_InitI) ( HWND hMainWnd, int nConsoleID, const char* sClientVer 
 int		(CCONV *_RA_Shutdown) () = NULL;
 //	Load/Save
 int		(CCONV *_RA_ConfirmLoadNewRom) (int bQuitting) = NULL;
-int		(CCONV *_RA_OnLoadNewRom) (const BYTE* pROM, const unsigned int nROMSize, const BYTE* pRAM, const unsigned int nRAMSize, const BYTE* pExtraRAM, const unsigned int nRAMExtraSize) = NULL;
+int		(CCONV *_RA_OnLoadNewRom) (const BYTE* pROM, const unsigned int nROMSize, const BYTE* pRAM, const unsigned int nRAMSize, const BYTE* pExtraRAM, const unsigned int nRAMExtraSize, const char* sFileName) = NULL;
 void	(CCONV *_RA_OnLoadState)(const char* sFilename) = NULL;
 void	(CCONV *_RA_OnSaveState)(const char* sFilename) = NULL;
 
@@ -145,10 +145,10 @@ void RA_UpdateRenderOverlay( HDC hDC, ControllerInput* pInput, float fDeltaTime,
 		_RA_RenderOverlay( hDC, prcSize );
 }
 
-void RA_OnLoadNewRom( BYTE* pROMData, unsigned int nROMSize, BYTE* pRAMData, unsigned int nRAMSize, BYTE* pRAMExtraData, unsigned int nRAMExtraSize )
+void RA_OnLoadNewRom( BYTE* pROMData, unsigned int nROMSize, BYTE* pRAMData, unsigned int nRAMSize, BYTE* pRAMExtraData, unsigned int nRAMExtraSize, const char* sFileName)
 {
 	if( _RA_OnLoadNewRom != NULL )
-		_RA_OnLoadNewRom(pROMData, nROMSize, pRAMData, nRAMSize, pRAMExtraData, nRAMExtraSize);
+		_RA_OnLoadNewRom(pROMData, nROMSize, pRAMData, nRAMSize, pRAMExtraData, nRAMExtraSize, sFileName);
 }
 
 HMENU RA_CreatePopupMenu()
@@ -409,7 +409,7 @@ const char* CCONV _RA_InstallIntegration()
 	_RA_UpdatePopups		= (int(CCONV *)(ControllerInput*, float, bool, bool))	GetProcAddress( g_hRADLL, "_RA_UpdatePopups" );
 	_RA_RenderOverlay		= (void(CCONV *)(HDC, RECT*))					GetProcAddress( g_hRADLL, "_RA_RenderOverlay" );
 	_RA_RenderPopups		= (void(CCONV *)(HDC, RECT*))					GetProcAddress( g_hRADLL, "_RA_RenderPopups" );
-	_RA_OnLoadNewRom		= (int(CCONV *)(const BYTE*, const unsigned int, const BYTE*, const unsigned int, const BYTE*, const unsigned int))	GetProcAddress( g_hRADLL, "_RA_OnLoadNewRom" );
+	_RA_OnLoadNewRom		= (int(CCONV *)(const BYTE*, const unsigned int, const BYTE*, const unsigned int, const BYTE*, const unsigned int, const char*))	GetProcAddress( g_hRADLL, "_RA_OnLoadNewRom" );
 	_RA_UpdateAppTitle		= (void(CCONV *)(const char*))					GetProcAddress( g_hRADLL, "_RA_UpdateAppTitle" );
 	
 	_RA_HandleHTTPResults	= (void(CCONV *)())								GetProcAddress( g_hRADLL, "_RA_HandleHTTPResults" );

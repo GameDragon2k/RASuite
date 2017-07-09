@@ -349,7 +349,7 @@ void CN64System::RunLoadedImage(void)
         WriteTrace(TraceN64System, TraceError, "Failed to create CN64System");
     }
 	// #RA
-	RA_OnLoadNewRom(g_Rom->GetRomAddress(), g_Rom->GetRomSize(), g_MMU->Rdram(), g_MMU->RdramSize(), NULL, 0);
+	RA_OnLoadNewRom(g_Rom->GetRomAddress(), g_Rom->GetRomSize(), g_MMU->Rdram(), g_MMU->RdramSize(), NULL, 0, g_Rom->GetFileName().c_str());
 	doRAThread = true;
     WriteTrace(TraceN64System, TraceDebug, "Done");
 }

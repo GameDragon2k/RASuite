@@ -35,7 +35,7 @@ API HMENU CCONV _RA_CreatePopupMenu();
 API int CCONV _RA_ConfirmLoadNewRom( BOOL bQuittingApp );
 
 //	On or immediately after a new ROM is loaded, including if the ROM is reset.
-API int CCONV _RA_OnLoadNewRom( BYTE* pROM, unsigned int nROMSize, BYTE* pRAM, unsigned int nRAMSize, BYTE* pRAMExtra, unsigned int nRAMExtraSize );
+API int CCONV _RA_OnLoadNewRom( BYTE* pROM, unsigned int nROMSize, BYTE* pRAM, unsigned int nRAMSize, BYTE* pRAMExtra, unsigned int nRAMExtraSize, const char* sFileName);
 
 
 //	Immediately after loading a new state.
