@@ -433,15 +433,27 @@ const char* CCONV _RA_InstallIntegration()
 }
 
 //	Console IDs: see enum EmulatorID in header
-void RA_Init( HWND hMainHWND, int nConsoleID, const char* sClientVersion )
+void RA_Init(HWND hMainHWND, int nConsoleID, const char* sClientVersion)
 {
 	DWORD nBytesRead = 0;
 	char buffer[1024];
-	ZeroMemory( buffer, 1024 );
-	if( DoBlockingHttpGet( "GDLatestIntegration.html", buffer, 1024, &nBytesRead ) == FALSE )
+	ZeroMemory(buffer, 1024);
+
+	if (nConsoleID == 2) // Separate integration for N64.
 	{
-		MessageBoxA( NULL, "Cannot access www.retroachievements.org - working offline.", "Warning", MB_OK|MB_ICONEXCLAMATION );
-		return;
+		if (DoBlockingHttpGet("GDLatestIntegration.html", buffer, 1024, &nBytesRead) == FALSE)
+		{
+			MessageBoxA(NULL, "Cannot access www.retroachievements.org - working offline.", "Warning", MB_OK | MB_ICONEXCLAMATION);
+			return;
+		}
+	}
+	else
+	{
+		if (DoBlockingHttpGet("LatestIntegration.html", buffer, 1024, &nBytesRead) == FALSE)
+		{
+			MessageBoxA(NULL, "Cannot access www.retroachievements.org - working offline.", "Warning", MB_OK | MB_ICONEXCLAMATION);
+			return;
+		}
 	}
 
 	const unsigned int nLatestDLLVer = strtol( buffer+2, NULL, 10 );

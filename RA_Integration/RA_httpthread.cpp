@@ -57,6 +57,8 @@ BOOL DoBlockingHttpGet( const char* sRequestedPage, char* pBufferOut, const unsi
 	{
 		if( strncmp( sRequestedPage, "Badge", 5 ) == 0 )
 			hConnect = WinHttpConnect( hSession, RA_IMG_HOST_W, INTERNET_DEFAULT_HTTP_PORT, 0);
+		else if (strncmp (sRequestedPage, "LatestRAP64Version.html", 23 ) == 0)
+			hConnect = WinHttpConnect(hSession, L"gamedragon.000webhostapp.com", INTERNET_DEFAULT_HTTP_PORT, 0);
 		else
 			hConnect = WinHttpConnect( hSession, RA_HOST_W, INTERNET_DEFAULT_HTTP_PORT, 0);
 

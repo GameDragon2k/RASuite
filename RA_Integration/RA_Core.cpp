@@ -490,7 +490,7 @@ API BOOL CCONV _RA_OfferNewRAUpdate( const char* sNewVer )
 	//	Update last known version:
 	//strcpy_s( g_sKnownRAVersion, 50, sNewVer );
 
-	if( MessageBox( g_RAMainWnd, buffer, "Update available!", MB_YESNO ) == IDYES )
+	if (MessageBox(g_RAMainWnd, buffer, "Update available!", MB_YESNO) == IDYES)
 	{
 		//SetCurrentDirectory( g_sHomeDir );
 		//FetchBinaryFromWeb( g_sClientEXEName );
@@ -520,12 +520,25 @@ API BOOL CCONV _RA_OfferNewRAUpdate( const char* sNewVer )
 		//	NULL,
 		//	SW_SHOWNORMAL ); 
 
-		ShellExecute( NULL,
-			"open",
-			"http://www.retroachievements.org/download.php",
-			NULL,
-			NULL,
-			SW_SHOWNORMAL );
+
+		if (g_ConsoleID == 2)
+		{
+			ShellExecute(NULL,
+				"open",
+				"http://retroachievements.org/viewtopic.php?t=4686",
+				NULL,
+				NULL,
+				SW_SHOWNORMAL);
+		}
+		else
+		{
+			ShellExecute(NULL,
+				"open",
+				"http://www.retroachievements.org/download.php",
+				NULL,
+				NULL,
+				SW_SHOWNORMAL);
+		}
 
 		return TRUE;
 	}
