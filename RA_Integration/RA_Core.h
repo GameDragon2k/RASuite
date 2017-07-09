@@ -35,7 +35,7 @@ API HMENU CCONV _RA_CreatePopupMenu();
 API int CCONV _RA_ConfirmLoadNewRom( BOOL bQuittingApp );
 
 //	On or immediately after a new ROM is loaded, including if the ROM is reset.
-API int CCONV _RA_OnLoadNewRom( BYTE* pROM, unsigned int nROMSize, BYTE* pRAM, unsigned int nRAMSize, BYTE* pRAMExtra, unsigned int nRAMExtraSize, const char* sFileName);
+API int CCONV _RA_OnLoadNewRom( BYTE* pROM, unsigned int nROMSize, BYTE* pRAM, unsigned int nRAMSize, BYTE* pRAMExtra, unsigned int nRAMExtraSize, const char* sPlainMD5);
 
 
 //	Immediately after loading a new state.
@@ -102,6 +102,7 @@ API void CCONV _RA_InstallSharedFunctions( bool(*fpIsActive)(void), void(*fpCaus
 extern char g_sKnownRAVersion[50];
 extern char g_sHomeDir[2048];
 extern char g_sROMDirLocation[2048];
+extern char g_sCurrentROMMD5[33];
 extern HINSTANCE g_hRAKeysDLL;
 extern HMODULE g_hThisDLLInst;
 extern HWND g_RAMainWnd;

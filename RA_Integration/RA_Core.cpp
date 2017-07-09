@@ -362,13 +362,12 @@ API int _RA_HTTPGetRequestExists( const char* sPageName )
 	return HTTPRequestExists( sPageName );
 }
 
-API int CCONV _RA_OnLoadNewRom( BYTE* pROM, unsigned int nROMSize, BYTE* pRAM, unsigned int nRAMSize, BYTE* pRAMExtra, unsigned int nRAMExtraSize, const char* sFileName )
+API int CCONV _RA_OnLoadNewRom( BYTE* pROM, unsigned int nROMSize, BYTE* pRAM, unsigned int nRAMSize, BYTE* pRAMExtra, unsigned int nRAMExtraSize, const char* sPlainMD5 )
 {
 	ZeroMemory( g_sCurrentROMMD5, 33 );
 	if( pROM != NULL && nROMSize > 0 )
 	{
-		//md5_GenerateMD5Raw( pROM, nROMSize, g_sCurrentROMMD5 );
-		md5_GenerateMD5Plain(sFileName, g_sCurrentROMMD5);
+		strcpy(g_sCurrentROMMD5, sPlainMD5);
 	}
 
 	g_MemManager.InstallRAM( pRAM, nRAMSize, pRAMExtra, nRAMExtraSize );

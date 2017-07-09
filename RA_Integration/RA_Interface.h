@@ -82,7 +82,7 @@ extern const char* RA_Username();
 extern void RA_AttemptLogin();
 
 //	Should be called immediately after a new ROM is loaded.
-extern void RA_OnLoadNewRom( BYTE* pROMData, const unsigned int nROMSize, BYTE* pRAMData, const unsigned int nRAMSize, BYTE* pExtraRAMData, const unsigned int nExtraRAMSize, const char* sFileName);
+extern void RA_OnLoadNewRom( BYTE* pROMData, const unsigned int nROMSize, BYTE* pRAMData, const unsigned int nRAMSize, BYTE* pExtraRAMData, const unsigned int nExtraRAMSize, const char* sPlainMD5);
 
 //	Call this before loading a new ROM or quitting, to ensure no developer changes are lost.
 extern bool RA_ConfirmLoadNewRom( bool bIsQuitting );

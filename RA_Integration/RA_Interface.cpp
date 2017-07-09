@@ -145,10 +145,10 @@ void RA_UpdateRenderOverlay( HDC hDC, ControllerInput* pInput, float fDeltaTime,
 		_RA_RenderOverlay( hDC, prcSize );
 }
 
-void RA_OnLoadNewRom( BYTE* pROMData, unsigned int nROMSize, BYTE* pRAMData, unsigned int nRAMSize, BYTE* pRAMExtraData, unsigned int nRAMExtraSize, const char* sFileName)
+void RA_OnLoadNewRom( BYTE* pROMData, unsigned int nROMSize, BYTE* pRAMData, unsigned int nRAMSize, BYTE* pRAMExtraData, unsigned int nRAMExtraSize, const char* sPlainMD5)
 {
 	if( _RA_OnLoadNewRom != NULL )
-		_RA_OnLoadNewRom(pROMData, nROMSize, pRAMData, nRAMSize, pRAMExtraData, nRAMExtraSize, sFileName);
+		_RA_OnLoadNewRom(pROMData, nROMSize, pRAMData, nRAMSize, pRAMExtraData, nRAMExtraSize, sPlainMD5);
 }
 
 HMENU RA_CreatePopupMenu()

@@ -22,6 +22,11 @@
 #include <Project64-core/3rdParty/7zip.h>
 #endif
 
+// #RA
+#include "RA_Implementation\RA_Implementation.h"
+
+stdstr plainMD5;
+
 CN64Rom::CN64Rom() :
 m_ROMImage(NULL),
 m_ROMImageBase(NULL),
@@ -127,6 +132,8 @@ bool CN64Rom::AllocateAndLoadN64Image(const char * FileLoc, bool LoadBootCodeOnl
         return false;
     }
 
+	plainMD5 = MD5((unsigned char *)m_ROMImage, RomFileSize).hex_digest();
+
     g_Notify->DisplayMessage(5, MSG_BYTESWAP);
     ByteSwapRom();
 
@@ -214,6 +221,8 @@ bool CN64Rom::AllocateAndLoadZipImage(const char * FileLoc, bool LoadBootCodeOnl
                 break;
             }
             FoundRom = true;
+
+			plainMD5 = MD5((unsigned char *)m_ROMImage, RomFileSize).hex_digest();
 
             g_Notify->DisplayMessage(5, MSG_BYTESWAP);
             ByteSwapRom();

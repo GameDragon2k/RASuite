@@ -28,3 +28,4 @@ extern void RA_InitShared();
 
 //extras
 extern HWND hMainWindow;
+extern stdstr plainMD5;
