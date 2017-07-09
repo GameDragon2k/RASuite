@@ -7,20 +7,17 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "WinResrc.h"
-#define IDC_STATIC  -1
+#include "afxres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.K.) resources
+// English (United Kingdom) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -140,10 +137,12 @@ BEGIN
     DEFPUSHBUTTON   "-",IDC_RA_ACH_DELGROUP,22,159,15,16,BS_MULTILINE
     LTEXT           "Group:",IDC_STATIC,7,74,23,8
     LISTBOX         IDC_RA_ACH_GROUP,7,87,42,67,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "Up",IDC_RA_REORDER_UP,232,159,15,11
+    DEFPUSHBUTTON   "Dn",IDC_RA_REORDER_DOWN,232,171,15,12
 END
 
 IDD_RA_GAMETITLESEL DIALOGEX 0, 0, 248, 138
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_SETFOREGROUND | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_TOOLWINDOW
 CAPTION "Unknown Title"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -263,7 +262,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_RA_MEMORY, DIALOG
     BEGIN
@@ -449,10 +448,15 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Bitmap
+// AFX_DIALOG_LAYOUT
 //
 
-#endif    // English (U.K.) resources
+IDD_RA_ACHIEVEMENTEDITOR AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // English (United Kingdom) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

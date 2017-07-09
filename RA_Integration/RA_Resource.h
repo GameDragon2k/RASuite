@@ -2,6 +2,8 @@
 // Microsoft Visual C++ generated include file.
 // Used by RA_Shared.rc
 //
+#define IDC_RA_REORDER_UP               1019
+#define IDC_RA_REORDER_DOWN             1020
 #define IDD_RA_MEMORY                   1501
 #define IDD_RA_ACHIEVEMENTS             1502
 #define IDD_RA_ACHIEVEMENTEDITOR        1503
@@ -92,8 +94,8 @@
 #define IDC_RA_ROMDIR                   1593
 #define IDC_RA_GLIB_NAME                1594
 #define IDC_RA_PICKROMDIR               1595
-#define IDC_RA_REFRESH					1596
-#define IDC_RA_SCANNERFOUNDINFO			1597
+#define IDC_RA_REFRESH                  1596
+#define IDC_RA_SCANNERFOUNDINFO         1597
 #define IDM_RA_MENUSTART                1700
 #define IDM_RA_RETROACHIEVEMENTS        1700
 #define IDM_RA_FILES_TEST1              1701
@@ -119,9 +121,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        112
+#define _APS_NEXT_RESOURCE_VALUE        113
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1019
+#define _APS_NEXT_CONTROL_VALUE         1020
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -106,6 +106,7 @@ public:
 	void ClearBadgeImage();
 
 	Condition& GetCondition( size_t nCondGroup, unsigned int i )	{ return m_vConditions[nCondGroup].GetAt( i ); }
+	void SetCondition(Condition setCond, size_t nCondGroup, unsigned int i) { m_vConditions[nCondGroup].SetAt(setCond, i); }
 
 	int CreateMemString( char* pStrOut, const int nNumChars );
 

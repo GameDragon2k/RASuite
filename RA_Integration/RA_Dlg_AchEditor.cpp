@@ -1219,6 +1219,76 @@ INT_PTR Dlg_AchievementEditor::AchievementEditorProc( HWND hDlg, UINT uMsg, WPAR
 			}
 			break;
 
+		case IDC_RA_REORDER_UP:
+		{
+			HWND hList = GetDlgItem(hDlg, IDC_RA_LBX_CONDITIONS);
+			int nSel = ListView_GetNextItem(hList, -1, LVNI_SELECTED);
+
+			if (nSel > 0)
+			{
+				Achievement* pActiveAch = ActiveAchievement();
+				int group = GetSelectedConditionGroup();
+				if (pActiveAch != NULL && pActiveAch->NumConditions( group ) > 1 )
+				{
+					Condition tempCond1; 
+					tempCond1.Set (pActiveAch->GetCondition(group, nSel));
+					Condition tempCond2; 
+					tempCond2.Set (pActiveAch->GetCondition(group, nSel - 1));
+
+					pActiveAch->SetCondition(tempCond2, group, nSel);
+					pActiveAch->SetCondition(tempCond1, group, nSel - 1);
+
+					//	Set this achievement as 'modified'
+					pActiveAch->SetModified(TRUE);
+					g_AchievementsDialog.OnEditAchievement(pActiveAch);
+
+					//	Refresh:
+					//LoadAchievement(pActiveAch, FALSE);
+					pActiveAch->SetDirtyFlag(Dirty_Conditions);
+
+					//	Select item
+					ListView_SetItemState(hList, nSel-1, LVIS_FOCUSED | LVIS_SELECTED, -1);
+					ListView_EnsureVisible(hList, nSel-1, FALSE);
+				}
+			}
+		}
+		break;
+
+		case IDC_RA_REORDER_DOWN:
+		{
+			HWND hList = GetDlgItem(hDlg, IDC_RA_LBX_CONDITIONS);
+			int nSel = ListView_GetNextItem(hList, -1, LVNI_SELECTED);
+
+			if (nSel != -1)
+			{
+				Achievement* pActiveAch = ActiveAchievement();
+				int group = GetSelectedConditionGroup();
+				if (pActiveAch != NULL && pActiveAch->NumConditions(group) != nSel + 1 )
+				{
+					Condition tempCond1;
+					tempCond1.Set(pActiveAch->GetCondition(group, nSel));
+					Condition tempCond2;
+					tempCond2.Set(pActiveAch->GetCondition(group, nSel + 1));
+
+					pActiveAch->SetCondition(tempCond2, group, nSel);
+					pActiveAch->SetCondition(tempCond1, group, nSel + 1);
+
+					//	Set this achievement as 'modified'
+					pActiveAch->SetModified(TRUE);
+					g_AchievementsDialog.OnEditAchievement(pActiveAch);
+
+					//	Refresh:
+					//LoadAchievement(pActiveAch, FALSE);
+					//pActiveAch->SetDirtyFlag(Dirty_Conditions);
+
+					//	Select item
+					ListView_SetItemState(hList, nSel, LVIS_FOCUSED | LVIS_SELECTED, -1);
+					ListView_EnsureVisible(hList, nSel, FALSE);
+				}
+			}
+		}
+		break;
+
 		case IDC_RA_UPLOAD_BADGE:
 			{
 				//	Pressed Upload Badge
@@ -1955,7 +2025,19 @@ void Dlg_AchievementEditor::LoadAchievement( Achievement* pCheevo, BOOL bAttempt
 
 			//if( nSel == 0 || pCheevo->GetDirtyFlags() == Dirty__All )
 
+			int oldCount = m_pSelectedAchievement->NumConditions(GetSelectedConditionGroup());
+			SCROLLINFO scrollCond;
+			GetScrollInfo(hCtrl, SB_VERT, &scrollCond);
+			int verticalScroll = scrollCond.nPos;
+
 			PopulateConditions( m_pSelectedAchievement );
+
+			int newCount = m_pSelectedAchievement->NumConditions(GetSelectedConditionGroup());
+
+			if (oldCount == newCount)
+			{
+				SetScrollPos(hCtrl, SB_VERT, verticalScroll, true);
+			}
 		}
 		
 		EnableWindow( GetDlgItem( m_hAchievementEditorDlg, IDC_RA_ACH_AUTHOR ), FALSE );
