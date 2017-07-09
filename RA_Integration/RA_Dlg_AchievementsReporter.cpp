@@ -201,6 +201,7 @@ INT_PTR CALLBACK AchievementsReporterProc( HWND hDlg, UINT uMsg, WPARAM wParam, 
 					"Achievement IDs: %s\n"
 					"Problem: %s\n"
 					"Reporter: %s\n"
+					"ROM Checksum: %s\n"
 					"\n"
 					"Comment: %s\n"
 					"\n"
@@ -209,11 +210,20 @@ INT_PTR CALLBACK AchievementsReporterProc( HWND hDlg, UINT uMsg, WPARAM wParam, 
 					sBuggedIDs,
 					sProblemTypeNice,
 					g_LocalUser.Username(),
+					g_sCurrentROMMD5,
 					sBugReportComment );
 
 				if( MessageBox( NULL, sBugReportInFull, "Summary", MB_YESNO ) == IDNO )
 					return FALSE;
 								
+				// Append MD5 to Bug Report Comment.
+				sprintf_s(sBugReportComment, 4096,
+					"%s\n"
+					"\n"
+					"MD5: %s",
+					sBugReportComment,
+					g_sCurrentROMMD5);
+
 				//	Pack query string:
 				char sRequest[512];
  				sprintf_s( sRequest, 512, "u=%s&t=%s&i=%s&p=%s&n=%s", 
