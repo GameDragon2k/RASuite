@@ -172,6 +172,7 @@ public:
 	size_t Count() const		{ return m_Conditions.size(); }
 
 	void Add( const Condition& newCond )		{ m_Conditions.push_back( newCond ); }
+	void SetAt(Condition setCond, size_t i)		{ m_Conditions[i].Set(setCond); }
 	Condition& GetAt( size_t i )				{ return m_Conditions[i]; }
 	const Condition& GetAt( size_t i ) const	{ return m_Conditions[i]; }
 	void Clear()								{ m_Conditions.clear(); }
