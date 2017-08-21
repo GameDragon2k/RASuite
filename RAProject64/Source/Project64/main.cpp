@@ -97,7 +97,7 @@ int WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /
 		//Initialize RA
 		hMainWindow = reinterpret_cast<HWND>(MainWindow.GetWindowHandle());
 		BringWindowToTop(hMainWindow);
-		RA_Init(hMainWindow, RA_Project64, "0.054");
+		RA_Init(hMainWindow, RA_Project64, "0.055");
 
 		RA_InitShared();
 		RA_UpdateAppTitle("");

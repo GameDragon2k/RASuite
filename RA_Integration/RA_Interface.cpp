@@ -439,7 +439,7 @@ void RA_Init(HWND hMainHWND, int nConsoleID, const char* sClientVersion)
 	char buffer[1024];
 	ZeroMemory(buffer, 1024);
 
-	if (nConsoleID == 2) // Separate integration for N64.
+	if (nConsoleID == RA_Project64) // Separate integration for N64.
 	{
 		if (DoBlockingHttpGet("GDLatestIntegration.html", buffer, 1024, &nBytesRead) == FALSE)
 		{
