@@ -105,6 +105,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <LinkTimeCodeGeneration />
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y "$(ProjectDir)RA_Integration.dll" "$(SolutionDir)bin\Release"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebug|Win32'">
     <ClCompile>

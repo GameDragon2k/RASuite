@@ -20,6 +20,9 @@ public:
 	double				m_fModifier;				//	* 60 etc
 	bool				m_bBCDParse;				//	Parse as a binary coded decimal.
 	bool				m_bParseVal;				//	Parse as a value
+	bool				m_bInvertBit = false;
+	unsigned int		m_nSecondAddress = 0;
+	CompVariableSize	m_nSecondVarSize;
 };
 
 
@@ -29,6 +32,8 @@ class ValueSet
 public:
 	void ParseMemString( char* sBuffer );
 	double GetValue() const;
+	double GetOperationsValue( std::vector<std::string> ) const;
+	void MaxValue();
 	void AddNewValue( MemValue nVal );
 	void Clear();
 
@@ -86,6 +91,7 @@ public:
 	void SortRankInfo();
 
 	FormatType GetFormatType() const						{ return m_format; }
+	std::vector<std::string> m_sOperations;
 
 private:
 	ConditionSet	m_startCond;	//	Start monitoring if this is true

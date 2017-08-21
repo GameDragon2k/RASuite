@@ -40,6 +40,9 @@ double MemValue::GetValue() const
 		{
 			const unsigned int nBitmask = ( 1 << (m_nVarSize-CMP_SZ_1BIT_0) );
 			nRetVal = ( g_MemManager.RAMByte( m_nAddress ) & nBitmask ) != 0;
+
+			if (m_bInvertBit)
+				nRetVal = (nRetVal == 1) ? 0 : 1;
 		}
 		//nRetVal = g_MemManager.RAMByte( m_nAddress );
 
@@ -48,6 +51,16 @@ double MemValue::GetValue() const
 			//	Reparse this value as a binary coded decimal.
 			nRetVal = ( ( (nRetVal>>4)&0xf) * 10) + (nRetVal&0xf);
 		}
+	}
+
+	if (m_nSecondAddress > 0)
+	{
+		MemValue tempMem;
+		tempMem.m_bInvertBit = m_bInvertBit;
+		tempMem.m_nAddress = m_nSecondAddress;
+		tempMem.m_nVarSize = m_nSecondVarSize;
+
+		return nRetVal * tempMem.GetValue();
 	}
 
 	return nRetVal * m_fModifier;
@@ -80,7 +93,23 @@ char* MemValue::ParseFromString( char* pBuffer )
 	if( *pIter == '*' )
 	{
 		pIter++;						//	Skip over modifier type.. assume mult( '*' );
-		m_fModifier = strtod( pIter, &pIter );
+
+		// Invert bit flag results
+		if (*pIter == '~')
+		{
+			m_bInvertBit = true;
+			pIter++;
+		}
+
+		// Multiply by addresses
+		if (strncmp(pIter, "0x", sizeof("0x") - 1) == 0)
+		{
+			varTemp.ParseVariable(pIter);
+			m_nSecondAddress = varTemp.m_nVal;
+			m_nSecondVarSize = varTemp.m_nVarSize;
+		}
+		else
+			m_fModifier = strtod( pIter, &pIter );
 	}
 
 	return pIter;
@@ -98,6 +127,51 @@ double ValueSet::GetValue() const
 	}
 
 	return fVal;
+}
+
+double ValueSet::GetOperationsValue( std::vector<std::string> sOperations ) const
+{
+	//MemValue fVal;
+	//fVal.m_fModifier = 0.0; // Ensures fVal starts at a value of 0.
+	double fVal = 0.0;
+	std::vector<MemValue>::const_iterator iter = m_Values.begin();
+	std::vector<std::string>::const_iterator sOp = sOperations.begin();
+	while (iter != m_Values.end())
+	{
+		if (sOp == sOperations.end())
+			break;
+
+		if (*sOp == "max")
+		{
+			double maxValue = (*iter).GetValue();
+			iter++;
+			maxValue = (maxValue < (*iter).GetValue()) ? (*iter).GetValue() : maxValue;
+			fVal = (fVal < maxValue) ? maxValue : fVal;
+		}
+		else
+			fVal += (*iter).GetValue();
+
+		iter++;
+		sOp++;
+	}
+
+	return fVal;
+}
+
+void ValueSet::MaxValue()
+{
+	MemValue fVal;
+	fVal.m_fModifier = 0.0; // Ensures fVal starts at a value of 0.
+	std::vector<MemValue>::const_iterator iter = m_Values.begin();
+	while (iter != m_Values.end())
+	{
+		if (fVal.GetValue() < (*iter).GetValue())
+			fVal = *iter;
+		iter++;
+	}
+
+	m_Values.clear();
+	m_Values.push_back( fVal );
 }
 
 void ValueSet::AddNewValue( MemValue nMemVal )
@@ -210,15 +284,21 @@ void RA_Leaderboard::ParseLine( char* sBuffer )
 			do 
 			{
 				{
-					while( (*pChar) == ' ' || (*pChar) == '_' || (*pChar) == '|' )
+					while( (*pChar) == ' ' || (*pChar) == '_' || (*pChar) == '|' || (*pChar) == '$')
 						pChar++; // Skip any chars up til this point :S
 				}
 
 				MemValue newMemVal;
 				pChar = newMemVal.ParseFromString( pChar );
 				m_value.AddNewValue( newMemVal );
+
+				switch (*pChar)
+				{
+					case ('$'):
+						m_sOperations.push_back("max");
+				}
 			}
-			while( *pChar == '_' );
+			while( *pChar == '_'  || *pChar == '$');
 		}
 		else if( strncmp( pChar, "PRO:", sizeof("PRO:")-1 ) == 0 )
 		{
@@ -325,7 +405,7 @@ double RA_Leaderboard::GetCurrentValueProgress() const
 	if( m_progress.NumValues() > 0 )
 		return m_progress.GetValue();
 	else
-		return m_value.GetValue();
+		return m_value.GetOperationsValue( m_sOperations );
 }
 
 void RA_Leaderboard::Clear()
@@ -387,7 +467,7 @@ void RA_Leaderboard::Test()
 			g_PopupWindows.LeaderboardPopups().Deactivate( m_nID );
 
 			m_bStarted = FALSE;
-			int nVal = (int)m_value.GetValue();
+			int nVal = (int)m_value.GetOperationsValue( m_sOperations );
 
 			if( g_bRAMTamperedWith )
 			{
