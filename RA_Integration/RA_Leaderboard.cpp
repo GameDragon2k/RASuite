@@ -138,10 +138,7 @@ double ValueSet::GetOperationsValue( std::vector<std::string> sOperations ) cons
 	std::vector<std::string>::const_iterator sOp = sOperations.begin();
 	while (iter != m_Values.end())
 	{
-		if (sOp == sOperations.end())
-			break;
-
-		if (*sOp == "max")
+		if (sOp != sOperations.end() && *sOp == "max")
 		{
 			double maxValue = (*iter).GetValue();
 			iter++;
@@ -150,6 +147,9 @@ double ValueSet::GetOperationsValue( std::vector<std::string> sOperations ) cons
 		}
 		else
 			fVal += (*iter).GetValue();
+
+		if (sOp == sOperations.end())
+			break;
 
 		iter++;
 		sOp++;
