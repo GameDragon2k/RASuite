@@ -136,6 +136,13 @@ double ValueSet::GetOperationsValue( std::vector<std::string> sOperations ) cons
 	double fVal = 0.0;
 	std::vector<MemValue>::const_iterator iter = m_Values.begin();
 	std::vector<std::string>::const_iterator sOp = sOperations.begin();
+
+	if (iter != m_Values.end())
+	{
+		fVal += (*iter).GetValue();
+		iter++;
+	}
+
 	while (iter != m_Values.end())
 	{
 		if (sOp != sOperations.end() && *sOp == "max")
