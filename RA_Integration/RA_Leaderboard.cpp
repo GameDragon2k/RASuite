@@ -296,6 +296,10 @@ void RA_Leaderboard::ParseLine( char* sBuffer )
 				{
 					case ('$'):
 						m_sOperations.push_back("max");
+						break;
+					case ('_'):
+						m_sOperations.push_back("add");
+						break;
 				}
 			}
 			while( *pChar == '_'  || *pChar == '$');

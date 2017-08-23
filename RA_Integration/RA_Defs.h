@@ -17,7 +17,7 @@
 #else
 
 //NB. These must NOT be accessible from the emulator!
-#define RA_INTEGRATION_VERSION	"0.6407"
+#define RA_INTEGRATION_VERSION	"0.6408"
 
 #endif	//RA_EXPORTS
 
