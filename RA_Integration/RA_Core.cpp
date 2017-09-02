@@ -1393,7 +1393,8 @@ API void CCONV _RA_DoAchievementsFrame()
 	if( g_LocalUser.m_bIsLoggedIn )
 	{
 		g_pActiveAchievements->Test();
-		g_LeaderboardManager.Test();
+		if (g_hardcoreModeActive)
+			g_LeaderboardManager.Test();
 		g_MemoryDialog.Invalidate();
 	}
 }
