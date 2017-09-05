@@ -1177,15 +1177,16 @@ API void CCONV _RA_InvokeDialog( LPARAM nID )
 
 		case IDM_RA_GETROMCHECKSUM:
 			{
-				if( g_pActiveAchievements->Count() == 0 )
+				if( g_LocalUser.m_bIsLoggedIn )
 				{
-					MessageBox( NULL, "No ROM loaded!", "Error", MB_OK );
+					char buffer[2048];
+					sprintf_s(buffer, "Current ROM MD5: %s", g_sCurrentROMMD5);
+
+					MessageBox(NULL, buffer, "Get ROM Checksum", MB_OK);
 				}
 				else
-				{	char buffer[2048];
-					sprintf_s( buffer, "Current ROM MD5: %s", g_sCurrentROMMD5 );
-				
-					MessageBox( NULL, buffer, "Get ROM Checksum", MB_OK );
+				{	
+					MessageBox(NULL, "No ROM loaded!", "Error", MB_OK);
 				}
 			}
 			break;
