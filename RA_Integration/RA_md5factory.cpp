@@ -2,94 +2,70 @@
 
 #include <string.h>
 #include <stdio.h>
-#include <assert.h>
-#include <malloc.h>
 
 #include "md5.h"
+#include "RA_Defs.h"
 
+namespace
+{	
+	const static unsigned int MD5_STRING_LEN = 32;
+}
 
-void md5_GenerateMD5( const char* strIn, const unsigned int nLen, char* strOut )
+std::string RAGenerateMD5( const std::string& sStringToMD5 )
 {
-	const static unsigned int StrOutLen = 33;
-
+	static char buffer[33];
+	
 	md5_state_t pms;
 	md5_byte_t digest[16];
-	md5_byte_t* passBuffer = NULL;
 
-	assert( nLen < 20000000 );
-	if( nLen > 20000000 )
-		return;
+	md5_byte_t* pDataBuffer = new md5_byte_t[ sStringToMD5.length() ];
+	ASSERT( pDataBuffer != NULL );
+	if( pDataBuffer == NULL )
+		return "";
 
-	passBuffer = (md5_byte_t*)malloc(nLen);
-	assert( passBuffer != NULL );
-	if( passBuffer == NULL )
-		return;
-
-	memset( passBuffer, 0, nLen );
-	memcpy( passBuffer, strIn, nLen );
+	memcpy( pDataBuffer, sStringToMD5.c_str(), sStringToMD5.length() );
 
 	md5_init( &pms );
-	md5_append( &pms, passBuffer, nLen );
+	md5_append( &pms, pDataBuffer, sStringToMD5.length() );
 	md5_finish( &pms, digest );
 
-	memset( strOut, 0, StrOutLen );
-	sprintf_s( strOut, StrOutLen, 
+	memset( buffer, 0, MD5_STRING_LEN+1 );
+	sprintf_s( buffer, MD5_STRING_LEN+1, 
 			  "%02x%02x%02x%02x%02x%02x%02x%02x"
 			  "%02x%02x%02x%02x%02x%02x%02x%02x",
 			  digest[0],digest[1],digest[2],digest[3],digest[4],digest[5],digest[6],digest[7],
 			  digest[8],digest[9],digest[10],digest[11],digest[12],digest[13],digest[14],digest[15] );
 
-	free( passBuffer );
-	passBuffer = NULL;
+	delete[] pDataBuffer;
+	pDataBuffer = NULL;
+
+	return buffer;
 }
 
-void md5_GenerateMD5Raw( const unsigned char* rawIn, const unsigned int nLen, char* strOut )
+std::string RAGenerateMD5( const BYTE* pRawData, size_t nDataLen )
 {
-	const static unsigned int StrOutLen = 33;
-
+	static char buffer[33];
+	
 	md5_state_t pms;
 	md5_byte_t digest[16];
 
-	assert( sizeof( md5_byte_t ) == sizeof( unsigned char ) );
+	static_assert( sizeof( md5_byte_t ) == sizeof( BYTE ), "Must be equivalent for the MD5 to work!" );
 
 	md5_init( &pms );
-	md5_append( &pms, (md5_byte_t*)rawIn, nLen );
+	md5_append( &pms, static_cast<const md5_byte_t*>( pRawData ), nDataLen );
 	md5_finish( &pms, digest );
 
-	memset( strOut, 0, StrOutLen );
-	sprintf_s( strOut, StrOutLen, 
-			  "%02x%02x%02x%02x%02x%02x%02x%02x"
-			  "%02x%02x%02x%02x%02x%02x%02x%02x",
-			  digest[0],digest[1],digest[2],digest[3],digest[4],digest[5],digest[6],digest[7],
-			  digest[8],digest[9],digest[10],digest[11],digest[12],digest[13],digest[14],digest[15] );
+	memset( buffer, 0, MD5_STRING_LEN+1 );
+	sprintf_s( buffer, MD5_STRING_LEN + 1,
+			   "%02x%02x%02x%02x%02x%02x%02x%02x"
+			   "%02x%02x%02x%02x%02x%02x%02x%02x",
+			   digest[ 0 ], digest[ 1 ], digest[ 2 ], digest[ 3 ], digest[ 4 ], digest[ 5 ], digest[ 6 ], digest[ 7 ],
+			   digest[ 8 ], digest[ 9 ], digest[ 10 ], digest[ 11 ], digest[ 12 ], digest[ 13 ], digest[ 14 ], digest[ 15 ] );
+
+	return buffer;	//	Implicit promotion to std::string
 }
 
-void md5_GenerateMD5Plain(const char* fileName, char* strOut)
+std::string RAGenerateMD5( const std::vector<BYTE> DataIn )
 {
-	const static unsigned int StrOutLen = 33;
-	FILE *fInput;
-	unsigned char bBuffer[4096];
-
-	md5_state_t pms;
-	md5_byte_t digest[16];
-
-	memset(strOut, 0, StrOutLen);
-	md5_init(&pms);
-
-	fInput = fopen(fileName, "rb");
-
-	while (!feof(fInput))
-	{
-		unsigned int nCount = fread(bBuffer, sizeof(unsigned char), 4096, fInput);
-		md5_append(&pms, bBuffer, nCount);
-	}
-	md5_finish(&pms, digest);
-
-	fclose(fInput);
-
-	sprintf_s(strOut, StrOutLen,
-		"%02x%02x%02x%02x%02x%02x%02x%02x"
-		"%02x%02x%02x%02x%02x%02x%02x%02x",
-		digest[0], digest[1], digest[2], digest[3], digest[4], digest[5], digest[6], digest[7],
-		digest[8], digest[9], digest[10], digest[11], digest[12], digest[13], digest[14], digest[15]);
+	return RAGenerateMD5( DataIn.data(), DataIn.size() );
 }

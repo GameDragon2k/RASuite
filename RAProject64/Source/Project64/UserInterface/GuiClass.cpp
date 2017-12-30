@@ -483,6 +483,10 @@ WPARAM CMainGui::ProcessAllMessages(void)
 
 	while (GetMessage(&msg, NULL, 0, 0))
 	{
+		//#RA
+		RA_DoAchievementsFrame();
+		RA_HandleHTTPResults();
+
 		if (g_cheatUI != NULL && g_cheatUI->IsCheatMessage(&msg))
 		{
 			continue;

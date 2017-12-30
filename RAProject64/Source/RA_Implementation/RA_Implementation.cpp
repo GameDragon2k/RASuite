@@ -35,7 +35,13 @@ bool GameIsActive()
 //	Perform whatever action is required to unpause emulation.
 void CauseUnpause()
 {
-	//FCEUI_SetEmulationPaused( false );
+	g_BaseSystem->ExternalEvent( SysEvent_ResumeCPU_FromMenu );
+}
+
+//	Perform whatever action is required to pause emulation.
+void CausePause()
+{
+	g_BaseSystem->ExternalEvent( SysEvent_PauseCPU_FromMenu );
 }
 
 //	Perform whatever function in the case of needing to rebuild the menu.
@@ -71,7 +77,7 @@ void ResetEmulation()
 		g_BaseSystem->ExternalEvent(SysEvent_ResetCPU_Hard);
 }
 
-void LoadROM( char* sFullPath )
+void LoadROM( const char* sFullPath )
 {
 	//FCEUI_LoadGame( sFullPath, 0 );
 }
@@ -79,6 +85,6 @@ void LoadROM( char* sFullPath )
 //	Installs these shared functions into the DLL
 void RA_InitShared()
 {
-	RA_InstallSharedFunctions( &GameIsActive, &CauseUnpause, &RebuildMenu, &GetEstimatedGameTitle, &ResetEmulation, &LoadROM );
+	RA_InstallSharedFunctions( &GameIsActive, &CauseUnpause, &CausePause, &RebuildMenu, &GetEstimatedGameTitle, &ResetEmulation, &LoadROM );
 }
 

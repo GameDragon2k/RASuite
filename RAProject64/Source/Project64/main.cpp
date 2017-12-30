@@ -20,11 +20,8 @@ void RAthread(HWND status)
 	while (!quit_overlay_thread)
 	{
 		// #RA
-		RA_HandleHTTPResults();
-		RA_DoAchievementsFrame();
-
 		RenderAchievementsOverlay(hMainWindow, status);
-		Sleep(25);
+		Sleep(20);
 	}
 }
 
@@ -97,13 +94,13 @@ int WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /
 		//Initialize RA
 		hMainWindow = reinterpret_cast<HWND>(MainWindow.GetWindowHandle());
 		BringWindowToTop(hMainWindow);
-		RA_Init(hMainWindow, RA_Project64, "0.055");
+		RA_Init(hMainWindow, RA_Project64, "0.057");
 
 		RA_InitShared();
 		RA_UpdateAppTitle("");
 
 		RA_HandleHTTPResults();
-		RA_AttemptLogin();
+		RA_AttemptLogin( true );
 		RebuildMenu();
 
 		RenderAchievementsOverlay(hMainWindow, (HWND)MainWindow.GetStatusBar());

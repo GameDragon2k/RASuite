@@ -7,10 +7,11 @@
 
 #include <ddraw.h>
 
-LRESULT CALLBACK OverlayWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
-void CreateOverlay(HWND hwnd);
-void UpdateOverlay(HDC hdc, RECT rect);
-void RenderAchievementsOverlay(HWND hwnd, HWND status);
+LRESULT CALLBACK OverlayWndProc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam );
+void CreateOverlay( HWND hwnd, HWND status );
+void UpdateOverlay( HDC hdc, RECT rect );
+void BeginOverlayRender();
+void RenderAchievementsOverlay( HWND hwnd, HWND status );
 
 
 

@@ -322,7 +322,7 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
 			if (MessageBox(NULL, "Hardcore mode is active. If you load/save a state, Hardcore Mode will be disabled. Continue?", "Warning", MB_YESNO) == IDNO)
 				break;
 			else {
-				RA_DisableHardcoreMode();
+				RA_OnSaveState( NULL );
 			}
 		}
         WriteTrace(TraceUserInterface, TraceDebug, "ID_SYSTEM_SAVE");
@@ -334,7 +334,7 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
 			if (MessageBox(NULL, "Hardcore mode is active. If you load/save a state, Hardcore Mode will be disabled. Continue?", "Warning", MB_YESNO) == IDNO)
 				break;
 			else {
-				RA_DisableHardcoreMode();
+				RA_OnSaveState( NULL );
 			}
 		}
 		OnSaveAs(hWnd); 
@@ -345,7 +345,7 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
 			if (MessageBox(NULL, "Hardcore mode is active. If you load/save a state, Hardcore Mode will be disabled. Continue?", "Warning", MB_YESNO) == IDNO)
 				break;
 			else {
-				RA_DisableHardcoreMode();
+				RA_OnSaveState( NULL );
 			}
 		}
         WriteTrace(TraceUserInterface, TraceDebug, "ID_SYSTEM_RESTORE");
@@ -357,7 +357,7 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
 			if (MessageBox(NULL, "Hardcore mode is active. If you load/save a state, Hardcore Mode will be disabled. Continue?", "Warning", MB_YESNO) == IDNO)
 				break;
 			else {
-				RA_DisableHardcoreMode();
+				RA_OnSaveState( NULL );
 			}
 		}
 		OnLodState(hWnd); 
@@ -389,7 +389,7 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
 			if (MessageBox(NULL, "Hardcore mode is active. If you increase/decrease the speed of the game, Hardcore Mode will be disabled. Continue?", "Warning", MB_YESNO) == IDNO)
 				break;
 			else {
-				RA_DisableHardcoreMode();
+				RA_OnSaveState( NULL );
 				break;
 			}
 		}
@@ -401,7 +401,7 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
 			if (MessageBox(NULL, "Hardcore mode is active. If you increase/decrease the speed of the game, Hardcore Mode will be disabled. Continue?", "Warning", MB_YESNO) == IDNO)
 				break;
 			else {
-				RA_DisableHardcoreMode();
+				RA_OnSaveState( NULL );
 				break;
 			}
 		}

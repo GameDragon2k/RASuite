@@ -5,39 +5,45 @@
 #include <Project64-core/Plugins/ControllerPlugin.h>
 #include <Project64-core/N64System/SystemGlobals.h>
 
+#include "RA_Implementation\RA_Implementation.h"
 #include "../../RA_Integration/RA_Interface.h"
 
 HWND layeredWnd;
+HWND hMainWnd;
+HWND hStatusBar;
 RECT rect;
 RECT swrect;
 HBRUSH hbrush = CreateSolidBrush(0x110011);
 
 LRESULT CALLBACK OverlayWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
 
-void CreateOverlay(HWND hwnd)
+void CreateOverlay( HWND hwnd, HWND status )
 {
-		//Set up window class
-		WNDCLASSA wndEx;
-		memset(&wndEx, 0, sizeof(wndEx));
-		wndEx.cbWndExtra  = sizeof(wndEx);
-		wndEx.lpszClassName = "RA_WND_CLASS";
-		wndEx.lpfnWndProc = OverlayWndProc;
-		wndEx.hbrBackground = hbrush;
-		wndEx.hInstance = (HINSTANCE)GetWindowLong(hwnd, GWL_HINSTANCE);
-		int result = RegisterClass(&wndEx);
+	hMainWnd = hwnd;
+	hStatusBar = status;
 
-		// Create Window. WS_POPUP style is important so window displays without any borders or toolbar;
-		layeredWnd = CreateWindowEx(
-			(WS_EX_NOACTIVATE | WS_EX_TRANSPARENT | WS_EX_LAYERED),
-			wndEx.lpszClassName,
-			"RAP64",
-			(WS_POPUP),
-			CW_USEDEFAULT, CW_USEDEFAULT, rect.right, rect.bottom,
-			hwnd, NULL, wndEx.hInstance, NULL);
+	//Set up window class
+	WNDCLASSA wndEx;
+	memset(&wndEx, 0, sizeof(wndEx));
+	wndEx.cbWndExtra  = sizeof(wndEx);
+	wndEx.lpszClassName = "RA_WND_CLASS";
+	wndEx.lpfnWndProc = OverlayWndProc;
+	wndEx.hbrBackground = hbrush;
+	wndEx.hInstance = (HINSTANCE)GetWindowLong(hwnd, GWL_HINSTANCE);
+	int result = RegisterClass(&wndEx);
 
-		SetParent(hwnd, layeredWnd);
+	// Create Window. WS_POPUP style is important so window displays without any borders or toolbar;
+	layeredWnd = CreateWindowEx(
+		(WS_EX_NOACTIVATE | WS_EX_TRANSPARENT | WS_EX_LAYERED),
+		wndEx.lpszClassName,
+		"RAP64",
+		(WS_POPUP),
+		CW_USEDEFAULT, CW_USEDEFAULT, rect.right, rect.bottom,
+		hwnd, NULL, wndEx.hInstance, NULL);
+
+	SetParent(hwnd, layeredWnd);
 		
-		ShowWindow(layeredWnd, SW_SHOWNOACTIVATE);
+	ShowWindow(layeredWnd, SW_SHOWNOACTIVATE);
 }
 
 void UpdateOverlay(HDC hdc, RECT rect)
@@ -72,7 +78,7 @@ void RenderAchievementsOverlay(HWND hwnd, HWND status)
 		GetClientRect(hwnd, &rect);
 		GetClientRect(status, &swrect);
 		rect.bottom -= swrect.bottom;
-		CreateOverlay(hwnd);
+		CreateOverlay(hwnd, status);
 	}
 	else
 	{
@@ -93,6 +99,11 @@ void RenderAchievementsOverlay(HWND hwnd, HWND status)
 
 		ReleaseDC(layeredWnd, hdc);
 	}
+}
+
+void BeginOverlayRender()
+{
+	RenderAchievementsOverlay( hMainWnd, hStatusBar );
 }
 
 LRESULT CALLBACK OverlayWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)

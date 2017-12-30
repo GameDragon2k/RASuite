@@ -35,6 +35,16 @@
 
 #pragma warning(disable:4355) // Disable 'this' : used in base member initializer list
 
+unsigned char RAMByteReader ( unsigned int nOffs )
+{
+	return g_MMU->Rdram()[ nOffs ];
+}
+
+void RAMByteWriter( unsigned int nOffs, unsigned int nVal )
+{
+	g_MMU->Rdram()[ nOffs ] = nVal;
+}
+
 CN64System::CN64System(CPlugins * Plugins, bool SavesReadOnly, bool SyncSystem) :
 CSystemEvents(this, Plugins),
 m_EndEmulation(false),
@@ -348,8 +358,11 @@ void CN64System::RunLoadedImage(void)
     {
         WriteTrace(TraceN64System, TraceError, "Failed to create CN64System");
     }
+
 	// #RA
-	RA_OnLoadNewRom(g_Rom->GetRomAddress(), g_Rom->GetRomSize(), g_MMU->Rdram(), g_MMU->RdramSize(), NULL, 0, plainMD5.c_str());
+	RA_ClearMemoryBanks();
+	RA_InstallMemoryBank( 0, RAMByteReader, RAMByteWriter, g_MMU->RdramSize() );
+	RA_OnLoadNewRom( g_Rom->GetRomAddress(), FileSize );
 	doRAThread = true;
     WriteTrace(TraceN64System, TraceDebug, "Done");
 }

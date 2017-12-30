@@ -70,6 +70,12 @@
     <ClCompile>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\RA_Integration;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <PostBuildEvent>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">xcopy /Y "$(ProjectDir)..\..\..\RA_Integration\RA_Integration.dll" "$(SolutionDir)bin\Release"</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">xcopy /Y "$(ProjectDir)..\..\..\RA_Integration\RA_Integration_d.dll" "$(SolutionDir)bin\Debug"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\RA_Integration\RA_Interface.cpp">

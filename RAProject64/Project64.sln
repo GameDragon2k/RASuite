@@ -62,19 +62,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project64-video", "Source\P
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RA_Integration", "..\RA_Integration\RA_Integration.vcxproj", "{825CB292-F069-4B27-82CF-3417746ACDF3}"
 EndProject
-Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "RAProject64", "bin\Release\RAProject64.exe", "{C5CEF51B-345C-4216-B152-54C1665D8E3C}"
-	ProjectSection(DebuggerProjectSystem) = preProject
-		PortSupplier = 00000000-0000-0000-0000-000000000000
-		Executable = M:\Covers\GDN64\RAProject64\bin\Release\RAProject64.exe
-		RemoteMachine = TERRELL-PC
-		StartingDirectory = M:\Covers\GDN64\RAProject64\bin\Release
-		Environment = Default
-		LaunchingEngine = 00000000-0000-0000-0000-000000000000
-		UseLegacyDebugEngines = No
-		LaunchSQLEngine = No
-		AttachLaunchAction = No
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -272,15 +259,10 @@ Global
 		{825CB292-F069-4B27-82CF-3417746ACDF3}.Release|Win32.ActiveCfg = Release|Win32
 		{825CB292-F069-4B27-82CF-3417746ACDF3}.Release|Win32.Build.0 = Release|Win32
 		{825CB292-F069-4B27-82CF-3417746ACDF3}.Release|x64.ActiveCfg = Release|Win32
-		{825CB292-F069-4B27-82CF-3417746ACDF3}.ReleaseWithDebug|Win32.ActiveCfg = ReleaseWithDebug|Win32
-		{825CB292-F069-4B27-82CF-3417746ACDF3}.ReleaseWithDebug|Win32.Build.0 = ReleaseWithDebug|Win32
-		{825CB292-F069-4B27-82CF-3417746ACDF3}.ReleaseWithDebug|x64.ActiveCfg = ReleaseWithDebug|Win32
-		{C5CEF51B-345C-4216-B152-54C1665D8E3C}.Debug|Win32.ActiveCfg = Release|x86
-		{C5CEF51B-345C-4216-B152-54C1665D8E3C}.Debug|x64.ActiveCfg = Release|x86
-		{C5CEF51B-345C-4216-B152-54C1665D8E3C}.Release|Win32.ActiveCfg = Release|x86
-		{C5CEF51B-345C-4216-B152-54C1665D8E3C}.Release|x64.ActiveCfg = Release|x86
-		{C5CEF51B-345C-4216-B152-54C1665D8E3C}.ReleaseWithDebug|Win32.ActiveCfg = Release|x86
-		{C5CEF51B-345C-4216-B152-54C1665D8E3C}.ReleaseWithDebug|x64.ActiveCfg = Release|x86
+		{825CB292-F069-4B27-82CF-3417746ACDF3}.ReleaseWithDebug|Win32.ActiveCfg = ReleaseUnicode|Win32
+		{825CB292-F069-4B27-82CF-3417746ACDF3}.ReleaseWithDebug|Win32.Build.0 = ReleaseUnicode|Win32
+		{825CB292-F069-4B27-82CF-3417746ACDF3}.ReleaseWithDebug|x64.ActiveCfg = ReleaseUnicode|Win32
+		{825CB292-F069-4B27-82CF-3417746ACDF3}.ReleaseWithDebug|x64.Build.0 = ReleaseUnicode|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -294,6 +276,5 @@ Global
 		{1133A1CC-A9E5-4026-B20D-6A2987130D4E} = {0E0FCAC2-E128-4886-8EE6-1BCA84551F58}
 		{B685BB34-D700-4FCC-8503-9B6AA1A0C95D} = {0E0FCAC2-E128-4886-8EE6-1BCA84551F58}
 		{593B00E6-1987-415D-A62C-26533FC3E95C} = {0E0FCAC2-E128-4886-8EE6-1BCA84551F58}
-		{C5CEF51B-345C-4216-B152-54C1665D8E3C} = {AA8F7F8E-5377-4911-859D-8A8817B0DB26}
 	EndGlobalSection
 EndGlobal
