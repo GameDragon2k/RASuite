@@ -362,7 +362,7 @@ void CN64System::RunLoadedImage(void)
 	// #RA
 	RA_ClearMemoryBanks();
 	RA_InstallMemoryBank( 0, RAMByteReader, RAMByteWriter, g_MMU->RdramSize() );
-	RA_OnLoadNewRom( g_Rom->GetRomAddress(), FileSize );
+	RA_OnLoadNewRom( RomImage, FileSize );
 	doRAThread = true;
     WriteTrace(TraceN64System, TraceDebug, "Done");
 }

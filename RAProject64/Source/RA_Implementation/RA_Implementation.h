@@ -32,4 +32,5 @@ extern void RA_InitShared();
 //extras
 extern HWND hMainWindow;
 extern uint32_t FileSize;
+extern uint8_t* RomImage;
 extern bool doRAThread;

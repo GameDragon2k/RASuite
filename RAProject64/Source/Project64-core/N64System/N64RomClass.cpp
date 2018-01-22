@@ -26,6 +26,7 @@
 #include "RA_Implementation\RA_Implementation.h"
 
 uint32_t FileSize;
+uint8_t* RomImage(NULL);
 
 CN64Rom::CN64Rom() :
 m_ROMImage(NULL),
@@ -58,6 +59,8 @@ bool CN64Rom::AllocateRomImage(uint32_t RomFileSize)
     m_ROMImageBase = ImageBase.release();
     m_ROMImage = Image;
     m_RomFileSize = RomFileSize;
+
+	RomImage = new uint8_t[RomFileSize + 0x1000];
     return true;
 }
 
@@ -132,7 +135,8 @@ bool CN64Rom::AllocateAndLoadN64Image(const char * FileLoc, bool LoadBootCodeOnl
         return false;
     }
 
-	FileSize = RomFileSize;
+	FileSize = m_RomFileSize;
+	memcpy( RomImage, m_ROMImage, FileSize );
 
     g_Notify->DisplayMessage(5, MSG_BYTESWAP);
     ByteSwapRom();
@@ -222,7 +226,8 @@ bool CN64Rom::AllocateAndLoadZipImage(const char * FileLoc, bool LoadBootCodeOnl
             }
             FoundRom = true;
 
-			FileSize = RomFileSize;
+			FileSize = m_RomFileSize;
+			memcpy( RomImage, m_ROMImage, FileSize );
 
             g_Notify->DisplayMessage(5, MSG_BYTESWAP);
             ByteSwapRom();
