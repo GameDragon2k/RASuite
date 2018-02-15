@@ -176,6 +176,9 @@
  ***********************************************************************************/
 
 
+//	##RA
+#include "RA_Interface.h"
+
 #include <string>
 #include <numeric>
 #include <assert.h>
@@ -198,9 +201,6 @@
 #include "cheats.h"
 #include "movie.h"
 #include "display.h"
-
-//	##RA
-#include "RA_Interface.h"
 
 
 #ifndef SET_UI_COLOR
@@ -1066,7 +1066,8 @@ bool8 CMemory::Init (void)
     RAM	 = (uint8 *) malloc(0x20000);
     SRAM = (uint8 *) malloc(0x20000);
     VRAM = (uint8 *) malloc(0x10000);
-    ROM  = (uint8 *) malloc(MAX_ROM_SIZE + 0x200 + 0x8000);
+    ROM			  = (uint8 *) malloc(MAX_ROM_SIZE + 0x200 + 0x8000);
+    ROMUntouched  = (uint8 *) malloc(MAX_ROM_SIZE + 0x200 + 0x8000);
 
 	IPPU.TileCache[TILE_2BIT]       = (uint8 *) malloc(MAX_2BIT_TILES * 64);
 	IPPU.TileCache[TILE_4BIT]       = (uint8 *) malloc(MAX_4BIT_TILES * 64);
@@ -1107,7 +1108,8 @@ bool8 CMemory::Init (void)
 	memset(RAM, 0,  0x20000);
 	memset(SRAM, 0, 0x20000);
 	memset(VRAM, 0, 0x10000);
-	memset(ROM, 0,  MAX_ROM_SIZE + 0x200 + 0x8000);
+	memset(ROM,			 0,  MAX_ROM_SIZE + 0x200 + 0x8000);
+	memset(ROMUntouched, 0,  MAX_ROM_SIZE + 0x200 + 0x8000);
 
 	memset(IPPU.TileCache[TILE_2BIT], 0,       MAX_2BIT_TILES * 64);
 	memset(IPPU.TileCache[TILE_4BIT], 0,       MAX_4BIT_TILES * 64);
@@ -1176,6 +1178,12 @@ void CMemory::Deinit (void)
 		ROM -= 0x8000;
 		free(ROM);
 		ROM = NULL;
+	}
+
+	if (ROMUntouched)
+	{
+		free(ROMUntouched);
+		ROMUntouched = NULL;
 	}
 
 	for (int t = 0; t < 7; t++)
@@ -1442,7 +1450,14 @@ uint32 CMemory::FileLoader (uint8 *buffer, const char *filename, uint32 maxsize)
 				return (0);
 			}
 
-			totalSize = HeaderRemove(size, buffer);
+			//	##RA GRAB IT!
+			memcpy(Memory.ROMUntouched, buffer, size);
+			Memory.FileSizeBytes = totalSize;
+
+			//	##RA this doesn't look right: totalsize should be the ACTUAL file size
+			//totalSize = HeaderRemove(size, buffer);
+			totalSize = size;
+			HeaderRemove(size, buffer);
 
 			strcpy(ROMFilename, fname);
 		#else
@@ -1470,6 +1485,10 @@ uint32 CMemory::FileLoader (uint8 *buffer, const char *filename, uint32 maxsize)
 			{
 				size = READ_STREAM(ptr, maxsize + 0x200 - (ptr - buffer), fp);
 				CLOSE_STREAM(fp);
+
+				//	##RA GRAB IT!
+				memcpy(Memory.ROMUntouched, ptr, size);
+				Memory.FileSizeBytes = size;
 
 				size = HeaderRemove(size, ptr);
 				totalSize += size;
@@ -4113,6 +4132,8 @@ static int unzFindExtension (unzFile &file, const char *ext, bool restart, bool 
 
 void CMemory::CheckForAnyPatch (const char *rom_filename, bool8 header, int32 &rom_size)
 {
+	return;
+
 	if (Settings.NoPatch)
 		return;
 

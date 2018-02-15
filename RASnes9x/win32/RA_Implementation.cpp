@@ -6,8 +6,7 @@
 #include "port.h"
 #include "memmap.h"
 #include "controls.h"
-
-extern bool8 S9xLoadROMImage (const TCHAR *string);
+#include "movie.h"
 
 //	Return whether a game has been loaded. Should return FALSE if
 //	 no ROM is loaded, or a ROM has been unloaded.
@@ -23,6 +22,12 @@ void CauseUnpause()
 	Settings.FrameAdvance = false;
 	GUI.FrameAdvanceJustPressed = 0;
 } 
+
+//	Perform whatever action is required to pause emulation.
+void CausePause()
+{
+	Settings.Paused = true;
+}
 
 //	Perform whatever function in the case of needing to rebuild the menu.
 void _RebuildMenu()
@@ -41,18 +46,27 @@ void GetEstimatedGameTitle( char* sNameOut )
 
 void ResetEmulation()
 {
-	if( !Settings.StopEmulation )
+	if (!Settings.StopEmulation)
+	{
+		if (S9xMoviePlaying())
+			S9xMovieStop(TRUE);
 		S9xReset();
+	}
 }
 
-void LoadROMFromEmu( char* sFullPath )
+#include <locale>
+#include <codecvt>
+
+extern bool8 S9xLoadROMImage( const TCHAR* string );
+void LoadROMFromEmu( const char* sFullPath )
 {
-	S9xLoadROMImage( sFullPath );
-	//Pre_Load_Rom( HWnd, sFullPath );
+	static std::wstring_convert< std::codecvt_utf8< wchar_t >, wchar_t > converter;
+	std::wstring str = converter.from_bytes( sFullPath );
+	S9xLoadROMImage( str.c_str() );
 }
 
 //	Installs these shared functions into the DLL
 void RA_InitShared()
 {
-	RA_InstallSharedFunctions( &GameIsActive, &CauseUnpause, &_RebuildMenu, &GetEstimatedGameTitle, &ResetEmulation, &LoadROMFromEmu );
+	RA_InstallSharedFunctions( &GameIsActive, &CauseUnpause, &CausePause, &RebuildMenu, &GetEstimatedGameTitle, &ResetEmulation, &LoadROMFromEmu );
 }

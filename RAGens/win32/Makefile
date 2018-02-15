@@ -13,9 +13,10 @@ TOOLSPATH=tools
 SRCPATH=src
 SRCCOMMONPATH=..\common\src
 SRC_RA=..\..\RA_Integration
-DX_LIBS="C:\SDK\DX90CSDK\Lib\x86"
-DX_SDK="C:\SDK\DX90CSDK\Include"
+DX_LIBS="..\..\DXSDK_March09_x86"
+DX_SDK="..\..\DXSDK_March09_x86"
 
+PREBUILD=MakeBuildVer.bat
 
 !IF "$(RELEASE)"=="1"
 POSTBUILD=copy $(SRC_RA)\RA_Integration.dll . && copy $(SRC_RA)\*.pdb .
@@ -36,7 +37,7 @@ POSTBUILD=copy $(SRC_RA)\RA_Integration_d.dll . && copy $(SRC_RA)\*.pdb .
 !ENDIF
 
 !IF "$(RELEASE)"=="1" && "$(RELEASEDEBUG)"!="1"
-LINK_FLAGS=/DEBUG
+LINK_FLAGS=/RELEASE
 !ELSE
 LINK_FLAGS=/DEBUG
 !ENDIF
@@ -56,7 +57,7 @@ CC_FLAGS=/Ox /Zi /D "NDEBUG" /MT
 !ELSE
 CC_FLAGS=/Od /Z7 /D "_DEBUG" /MTd
 !ENDIF
-CC=cl.exe /c /nologo /EHsc /W3 /D "WIN32" /D "_MBCS" /D "RA_GENS" /D "_CRT_SECURE_NO_WARNINGS" /wd4101 /wd4244 /wd4018 /wd4305 /I$(SRCCOMMONPATH) /I$(SRC_RA) /I$(SRCPATH) /I$(DX_SDK) $(CC_FLAGS)
+CC=cl.exe /c /nologo /EHsc /W3 /D "WIN32" /D "_MBCS" /D "RA_GENS" /D "_CRT_SECURE_NO_WARNINGS" /D _USING_V110_SDK71_ /wd4101 /wd4244 /wd4018 /wd4305 /I$(SRCCOMMONPATH) /I$(SRC_RA) /I$(SRCPATH) /I$(DX_SDK) $(CC_FLAGS)
 
 OBJS = \
 	$(TEMPPATH)\blit.obj \
@@ -159,6 +160,11 @@ STARSCREAM_LIBS = \
 	uuid.lib \
 	odbc32.lib \
 	odbccp32.lib
+
+all: pre-build gens
+
+pre-build:
+	$(PREBUILD)
 
 gens: $(GENSPATH)\RAGens.exe
 	copy /Y $(SRCCOMMONPATH)\license.txt $(GENSPATH)\LICENSE.txt

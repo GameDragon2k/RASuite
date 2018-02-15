@@ -11,7 +11,7 @@
 //	 no ROM is loaded, or a ROM has been unloaded.
 bool GameIsActive()
 { 
-	return ( emulating == TRUE ); 
+	return( emulating == TRUE ); 
 }
 
 //	Perform whatever action is required to unpause emulation.
@@ -19,7 +19,13 @@ void CauseUnpause()
 {
 	theApp.paused = false;
 	theApp.wasPaused = true;
-} 
+}
+
+//	Perform whatever action is required to pause emulation.
+void CausePause()
+{
+	theApp.paused = true;
+}	
 
 //	Perform whatever function in the case of needing to rebuild the menu.
 void RebuildMenu()
@@ -44,20 +50,20 @@ void GetEstimatedGameTitle( char* sNameOut )
 	}
 }
 
-void ResetEmulator()
+void ResetEmulation()
 {
 	if( theApp.emulator.emuReset != NULL )
 		theApp.emulator.emuReset();
 }
 
-void LoadROM( char* sFullPath )
+void LoadROM( const char* sFullPath )
 {
 	theApp.szFile = sFullPath;
-	theApp.FileRun();
+	theApp.Run();
 }
 
 //	Installs these shared functions into the DLL
 void RA_InitShared()
 {
-	RA_InstallSharedFunctions( &GameIsActive, &CauseUnpause, &RebuildMenu, &GetEstimatedGameTitle, &ResetEmulator, &LoadROM );
+	RA_InstallSharedFunctions( &GameIsActive, &CauseUnpause, &CausePause, &RebuildMenu, &GetEstimatedGameTitle, &ResetEmulation, &LoadROM );
 }

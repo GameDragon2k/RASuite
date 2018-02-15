@@ -3,6 +3,7 @@
 
 //	Include any emulator-side headers, externs or functions here
 #include "../Common.h"
+#include "movie.h"
 
 // returns -1 if not found
 int GetMenuItemIndex(HMENU hMenu, const char* ItemName)
@@ -34,6 +35,12 @@ bool GameIsActive()
 void CauseUnpause()
 {
 	FCEUI_SetEmulationPaused( false );
+}
+
+//	Perform whatever action is required to pause emulation.
+void CausePause()
+{
+	FCEUI_SetEmulationPaused(true);
 }
 
 //	Perform whatever function in the case of needing to rebuild the menu.
@@ -69,10 +76,11 @@ void GetEstimatedGameTitle( char* sNameOut )
 
 void ResetEmulation()
 {
+	FCEUI_StopMovie();
 	FCEUI_ResetNES();
 }
 
-void LoadROM( char* sFullPath )
+void LoadROM( const char* sFullPath )
 {
 	FCEUI_LoadGame( sFullPath, 0 );
 }
@@ -80,6 +88,6 @@ void LoadROM( char* sFullPath )
 //	Installs these shared functions into the DLL
 void RA_InitShared()
 {
-	RA_InstallSharedFunctions( &GameIsActive, &CauseUnpause, &RebuildMenu, &GetEstimatedGameTitle, &ResetEmulation, &LoadROM );
+	RA_InstallSharedFunctions( &GameIsActive, &CauseUnpause, &CausePause, &RebuildMenu, &GetEstimatedGameTitle, &ResetEmulation, &LoadROM );
 }
 

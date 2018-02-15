@@ -5,6 +5,8 @@
 //#include "../Common.h"
 #include "../WinMain.h"
 #include "../MainBoard.h"
+#include "../TocDB.h"
+#include "../App.h"
 
 // returns -1 if not found
 int GetMenuItemIndex(HMENU hMenu, const char* ItemName)
@@ -37,6 +39,12 @@ void CauseUnpause()
 {
 	//FCEUI_SetEmulationPaused( false );
 	MAINBOARD_Pause( FALSE );
+}
+
+//	Perform whatever action is required to pause emulation.
+void CausePause()
+{
+	MAINBOARD_Pause( TRUE );
 }
 
 //	Perform whatever function in the case of needing to rebuild the menu.
@@ -73,9 +81,17 @@ void ResetEmulation()
 	//?
 }
 
+void LoadROM( const char* sFullPath )
+{
+	
+	if (APP_GetCDGame())
+		sFullPath =TOCDB_GetGameTitle();
+	
+}
+
 //	Installs these shared functions into the DLL
 void RA_InitShared()
 {
-	RA_InstallSharedFunctions( &GameIsActive, &CauseUnpause, &RebuildMenu, &GetEstimatedGameTitle, &ResetEmulation );
+	RA_InstallSharedFunctions( &GameIsActive, &CauseUnpause, &CausePause, &RebuildMenu, &GetEstimatedGameTitle, &ResetEmulation, &LoadROM );
 }
 
